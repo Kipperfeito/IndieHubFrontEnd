@@ -1,7 +1,6 @@
   import style from './style.module.css'
   import { useState, useEffect } from 'react';
 
-
   export default function Header() {
     return (
       <nav className={style.header}>
