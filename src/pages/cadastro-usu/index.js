@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Form.module.css";
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 // Supondo que você tenha uma instância 'api' configurada para requisições
 // import api from '../services/api'; 
@@ -24,9 +25,13 @@ export default function CadastroUsuario() {
         usufoto: '',
     });
     
-    const [confirmaSenha, setConfirmaSenha] = useState('');
     const [erro, setErro] = useState(''); // Estado único para todas as mensagens de erro.
+
+    const [confirmaSenha, setConfirmaSenha] = useState('');
     const [erroSenha, setErroSenha] = useState('');
+    const [mostrarSenha, setMostrarSenha] = useState(false);
+
+    //VALIDAÇÕES
     const validaEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
@@ -68,7 +73,6 @@ export default function CadastroUsuario() {
         }
         return true;
     }
-    // --- FUNÇÕES ---
 
     const proximaEtapa = () => {
         // Limpa erros antigos antes de validar novamente
@@ -227,6 +231,7 @@ export default function CadastroUsuario() {
     const fim = () => {alert("Salvado!")}
 
     return (
+        
         <div className={styles.container}>
             <h3>Formulário de Cadastro de Usuários</h3>
             {/* Exibe a mensagem de erro aqui, de forma centralizada */}
@@ -249,33 +254,55 @@ export default function CadastroUsuario() {
                 )}
                 {etapa === 2 && (
                     <>
-                        <label htmlFor="ususenha">Senha: </label>
-                        <input type="password" id="ususenha" name="ususenha" value={usuario.ususenha} onChange={handleChange} />
-                        {/* NOVO: Lista de requisitos para a senha */}
-                        {erroSenha &&
-                        <div className={styles.requisitosSenha}>
-                            <strong>A senha deve conter:</strong>
-                            <ul>
-                                <li>Pelo menos 8 caracteres</li>
-                                <li>Pelo menos uma letra minúscula (a-z)</li>
-                                <li>Pelo menos uma letra maiúscula (A-Z)</li>
-                                <li>Pelo menos um número (0-9)</li>
-                                <li>Pelo menos um caractere especial (!@#$...)</li>
-                            </ul>
-                        </div>}
-                        <br />
-                        <label htmlFor="confirmaSenha">Confirme a senha:</label>
-                        <input
-                            type="password"
-                            id="confirmaSenha" // ID corrigido para ser único
-                            name="confirmaSenha"
-                            value={confirmaSenha}
-                            onChange={(e) => setConfirmaSenha(e.target.value)}
-                        />
-                        <br />
+                        <div className={styles.passwordGroup}>
+                            <label htmlFor="ususenha">Senha: </label>
+                            <div className={styles.inputWithIcon}>
+                                <input type={mostrarSenha ? "text" : "password"} id="ususenha" name="ususenha" value={usuario.ususenha} onChange={handleChange} /> 
+                                    <button 
+                                        type="button" 
+                                        onClick={() => setMostrarSenha(!mostrarSenha)} 
+                                        className={styles.iconButton}
+                                        aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                                    >
+                                        {mostrarSenha ? <FiEye /> : <FiEyeOff />}
+                                    </button>
+                            </div>
+                            {/* NOVO: Lista de requisitos para a senha */}
+                            {erroSenha &&
+                            <div className={styles.requisitosSenha}>
+                                <strong>A senha deve conter:</strong>
+                                <ul>
+                                    <li>Pelo menos 8 caracteres</li>
+                                    <li>Pelo menos uma letra minúscula (a-z)</li>
+                                    <li>Pelo menos uma letra maiúscula (A-Z)</li>
+                                    <li>Pelo menos um número (0-9)</li>
+                                    <li>Pelo menos um caractere especial (!@#$...)</li>
+                                </ul>
+                            </div>}
+                            <br />
+                            <label htmlFor="confirmaSenha">Confirme a senha:</label>
+                            <div className={styles.inputWithIcon}>
+                                <input
+                                    type={mostrarSenha ? "text" : "password"}
+                                    id="confirmaSenha"
+                                    name="confirmaSenha"
+                                    value={confirmaSenha}
+                                    onChange={(e) => setConfirmaSenha(e.target.value)}
+                                />
+                                {/* O botão de ícone de confirmação compartilha o mesmo estado e ação */}
+                                <button 
+                                    type="button" 
+                                    onClick={() => setMostrarSenha(!mostrarSenha)} 
+                                    className={styles.iconButton}
+                                    aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                                >
+                                    {mostrarSenha ? <FiEye /> : <FiEyeOff />}
+                                </button>
+                            </div>
+                        </div>
                         <div className={styles.buttonGroup}>
-                        <button type="button" onClick={etapaAnterior}>Voltar</button>
-                        <button type="button" onClick={proximaEtapa}>Avançar</button>
+                            <button type="button" onClick={etapaAnterior}>Voltar</button>
+                            <button type="button" onClick={proximaEtapa}>Avançar</button>
                         </div>
                     </>
                 )}

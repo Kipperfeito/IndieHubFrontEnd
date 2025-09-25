@@ -94,6 +94,50 @@
   flex: 1;
 }
 
+.inputWithIcon {
+    position: relative; /* Define este como ponto de referência para o botão */
+    /* Garante que o input preencha o espaço disponível */
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Adiciona algum espaço abaixo do grupo */
+}
+
+/* Garante que o input ocupe a largura total menos o ícone */
+.inputWithIcon input[type="password"],
+.inputWithIcon input[type="text"] {
+    width: 100%;
+    /* Adicione padding à direita para que o texto não fique por baixo do ícone */
+    padding-right: 40px; 
+}
+
+/* Estilos para o botão de ícone */
+.iconButton {
+    position: absolute; /* Posição absoluta em relação a .inputWithIcon */
+    right: 5px; /* Ajuste para a direita */
+    top: 50%; /* Centraliza verticalmente */
+    transform: translateY(-50%);
+    background: none !important; /* ANULADO: Remove o fundo azul */
+    border: none !important; /* ANULADO: Garante que não tenha borda */
+    cursor: pointer;
+    padding: 5px !important; /* ANULADO: Define um padding pequeno/adequado */
+    color: #666; /* Cor do ícone */
+    z-index: 10;
+    font-size: 1.2em;
+    width: auto !important; /* ANULADO: Remove width: 100% */
+    transition: color 0.2s ease, transform 0.2s ease; /* Transição suave */
+}
+
+/* NOVO: Zera o hover/active do botão normal e adiciona um efeito sutil */
+.iconButton:hover {
+    background-color: transparent !important;
+    transform: translateY(-50%) scale(1.1) !important; /* Efeito de escala no hover */
+    color: #53aae0; /* Destaque azul no hover */
+}
+
+.iconButton:active {
+    transform: translateY(-50%) scale(1.0);
+}
+
 /* Estilo para a lista de tags */
 .tagList {
   display: flex;
@@ -237,7 +281,14 @@
   .formCadastro label {
     color: #ffffff;
   }
+  .iconButton {
+    color: #ccc !important; /* Cor clara para o ícone, garantindo anulação */
+  }
   
+  /* Mantém o hover com a cor de destaque */
+  .iconButton:hover {
+    color: #53aae0 !important; 
+  }
   .formCadastro input:not([type="file"]),
   .formCadastro select {  
     background-color: #404040;
