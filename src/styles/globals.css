@@ -1,36 +1,259 @@
+/* public/styles/global.css */
+
+/* 1. VARIÁVEIS GLOBAIS E RESET */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Paleta de Cores (Modo Claro) */
+  --color-primary: #53aae0;
+  --color-primary-hover: #417c9e;
+  --color-background: #0d1117; /* Fundo escuro por padrão, como na proposta */
+  --color-surface: #161b22;   /* Cor para cards e seções */
+  --color-text-primary: #e6edf3;
+  --color-text-secondary: #a1aab5;
+  --color-border: #30363d;
+
+  /* Tipografia */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+  /* Padrões de Layout */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --container-width: 1100px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+/* Reset Básico */
 * {
-  padding: 0;
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+/* 2. ESTILOS GERAIS (BODY, TIPOGRAFIA) */
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+main.landing-page {
+    background-image: linear-gradient(to bottom, #161b22, #0d1117);
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+h1 { font-size: 3.5rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.5rem; }
+p {
+  margin-bottom: 1rem;
+  color: var(--color-text-secondary);
+  max-width: 65ch; /* Melhora a legibilidade */
 }
 
 a {
-  color: inherit;
+  color: var(--color-primary);
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* 3. LAYOUT */
+.container {
+  width: 90%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+section {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+/* 4. COMPONENTES */
+
+/* --- Header / Navegação --- */
+.main-header {
+  background-color: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  width: 90%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+/* --- Botões --- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(83, 170, 224, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(83, 170, 224, 0.25);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(83, 170, 224, 0.1);
+  color: var(--color-primary);
+}
+
+/* --- Cards de Projeto --- */
+.showcase-grid, .features-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.features-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.showcase-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.feature-card, .project-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  text-align: left;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2.5rem;
+}
+
+.feature-card svg {
+    margin-bottom: 1rem;
+    height: 3rem;
+    width: 3rem;
+    color: var(--color-primary);
+}
+
+.feature-card:hover, .project-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary);
+}
+
+.project-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+}
+
+.project-card-content {
+  padding: 1.5rem;
+}
+
+.project-card-content h3 {
+    font-size: 1.25rem;
+}
+
+.project-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background-color: rgba(83, 170, 224, 0.15);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* 5. SEÇÕES ESPECÍFICAS DA LANDING PAGE */
+.hero-section {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-section .btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    max-width: 70ch;
+}
+
+/* --- Rodapé --- */
+.main-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+
+/* 6. RESPONSIVIDADE */
+@media (max-width: 768px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  .hero-section p { font-size: 1.1rem; }
+  
+  .nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .nav-links .btn {
+      width: 100%;
   }
 }

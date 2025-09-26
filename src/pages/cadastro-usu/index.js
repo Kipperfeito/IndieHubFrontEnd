@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Form.module.css";
+import Header from '@/components/Header';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 // Supondo que você tenha uma instância 'api' configurada para requisições
@@ -231,33 +232,66 @@ export default function CadastroUsuario() {
     const fim = () => {alert("Salvado!")}
 
     return (
-        
-        <div className={styles.container}>
-            <h3>Formulário de Cadastro de Usuários</h3>
-            {/* Exibe a mensagem de erro aqui, de forma centralizada */}
-            {erro && <p className={styles.erro}>{erro}</p>}
+        <>
+            <Header />
+            <div className={styles.container}>
+                <h3>Formulário de Cadastro de Usuários</h3>
+                {/* Exibe a mensagem de erro aqui, de forma centralizada */}
+                {erro && <p className={styles.erro}>{erro}</p>}
 
-            <form onSubmit={handleSubmit} className={styles.formCadastro}>
-                {etapa === 1 && (
-                    <>
-                        <label htmlFor="usunome">Nome: </label>
-                        <input type="text" id="usunome" name="usunome" maxLength="20" value={usuario.usunome} onChange={handleChange} />
-                        <br />
-                        <label htmlFor="usuemail">Email: </label>
-                        <input type="email" id="usuemail" name="usuemail" value={usuario.usuemail} onChange={handleChange} />
-                        <br />
-                        <label htmlFor="usudatanascimento">Data de Nascimento: </label>
-                        <input type="date" id="usudatanascimento" name="usudatanascimento" value={usuario.usudatanascimento} onChange={handleChange} />
-                        <br />
-                        <button type="button" onClick={proximaEtapa}>Avançar</button>
-                    </>
-                )}
-                {etapa === 2 && (
-                    <>
-                        <div className={styles.passwordGroup}>
-                            <label htmlFor="ususenha">Senha: </label>
-                            <div className={styles.inputWithIcon}>
-                                <input type={mostrarSenha ? "text" : "password"} id="ususenha" name="ususenha" value={usuario.ususenha} onChange={handleChange} /> 
+                <form onSubmit={handleSubmit} className={styles.formCadastro}>
+                    {etapa === 1 && (
+                        <>
+                            <label htmlFor="usunome">Nome: </label>
+                            <input type="text" id="usunome" name="usunome" maxLength="20" value={usuario.usunome} onChange={handleChange} />
+                            <br />
+                            <label htmlFor="usuemail">Email: </label>
+                            <input type="email" id="usuemail" name="usuemail" value={usuario.usuemail} onChange={handleChange} />
+                            <br />
+                            <label htmlFor="usudatanascimento">Data de Nascimento: </label>
+                            <input type="date" id="usudatanascimento" name="usudatanascimento" value={usuario.usudatanascimento} onChange={handleChange} />
+                            <br />
+                            <button type="button" onClick={proximaEtapa}>Avançar</button>
+                        </>
+                    )}
+                    {etapa === 2 && (
+                        <>
+                            <div className={styles.passwordGroup}>
+                                <label htmlFor="ususenha">Senha: </label>
+                                <div className={styles.inputWithIcon}>
+                                    <input type={mostrarSenha ? "text" : "password"} id="ususenha" name="ususenha" value={usuario.ususenha} onChange={handleChange} /> 
+                                        <button 
+                                            type="button" 
+                                            onClick={() => setMostrarSenha(!mostrarSenha)} 
+                                            className={styles.iconButton}
+                                            aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                                        >
+                                            {mostrarSenha ? <FiEye /> : <FiEyeOff />}
+                                        </button>
+                                </div>
+                                {/* NOVO: Lista de requisitos para a senha */}
+                                {erroSenha &&
+                                <div className={styles.requisitosSenha}>
+                                    <strong>A senha deve conter:</strong>
+                                    <ul>
+                                        <li>Pelo menos 8 caracteres</li>
+                                        <li>Pelo menos uma letra minúscula (a-z)</li>
+                                        <li>Pelo menos uma letra maiúscula (A-Z)</li>
+                                        <li>Pelo menos um número (0-9)</li>
+                                        <li>Pelo menos um caractere especial (!@#$...)</li>
+                                    </ul>
+                                </div>}
+                                <br />
+                                <label htmlFor="confirmaSenha">Confirme a senha:</label>
+                                <div className={styles.inputWithIcon}>
+                                    <input
+                                        type={mostrarSenha ? "text" : "password"}
+                                        id="confirmaSenha"
+                                        name="confirmaSenha"
+                                        value={confirmaSenha}
+                                        onChange={(e) => setConfirmaSenha(e.target.value)}
+                                    />
+                                    {/* O botão de ícone de confirmação compartilha o mesmo estado e ação */}
                                     <button 
                                         type="button" 
                                         onClick={() => setMostrarSenha(!mostrarSenha)} 
@@ -266,115 +300,84 @@ export default function CadastroUsuario() {
                                     >
                                         {mostrarSenha ? <FiEye /> : <FiEyeOff />}
                                     </button>
+                                </div>
                             </div>
-                            {/* NOVO: Lista de requisitos para a senha */}
-                            {erroSenha &&
-                            <div className={styles.requisitosSenha}>
-                                <strong>A senha deve conter:</strong>
-                                <ul>
-                                    <li>Pelo menos 8 caracteres</li>
-                                    <li>Pelo menos uma letra minúscula (a-z)</li>
-                                    <li>Pelo menos uma letra maiúscula (A-Z)</li>
-                                    <li>Pelo menos um número (0-9)</li>
-                                    <li>Pelo menos um caractere especial (!@#$...)</li>
-                                </ul>
-                            </div>}
-                            <br />
-                            <label htmlFor="confirmaSenha">Confirme a senha:</label>
-                            <div className={styles.inputWithIcon}>
-                                <input
-                                    type={mostrarSenha ? "text" : "password"}
-                                    id="confirmaSenha"
-                                    name="confirmaSenha"
-                                    value={confirmaSenha}
-                                    onChange={(e) => setConfirmaSenha(e.target.value)}
-                                />
-                                {/* O botão de ícone de confirmação compartilha o mesmo estado e ação */}
-                                <button 
-                                    type="button" 
-                                    onClick={() => setMostrarSenha(!mostrarSenha)} 
-                                    className={styles.iconButton}
-                                    aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
-                                >
-                                    {mostrarSenha ? <FiEye /> : <FiEyeOff />}
-                                </button>
+                            <div className={styles.buttonGroup}>
+                                <button type="button" onClick={etapaAnterior}>Voltar</button>
+                                <button type="button" onClick={proximaEtapa}>Avançar</button>
                             </div>
-                        </div>
-                        <div className={styles.buttonGroup}>
+                        </>
+                    )}
+                    {etapa === 3 && (
+                        <>
+                            <h4>Escolha suas habilidades:</h4>
+                            <div className={styles.tagList}>
+                                {tagsDisponiveis.map(tag => {
+                                    console.log(`Tag: ${tag}, Selecionada: ${usuario.usutags.includes(tag)}`);
+                                    return (
+                                        <button
+                                            key={tag}
+                                            type="button"
+                                            className={`${styles.tagButton} ${usuario.usutags.includes(tag) ? styles.tagButtonSelected : ''}`}
+                                            onClick={() => handleTagToggle(tag)}
+                                        >
+                                            {tag}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            {/* ... outros campos da etapa 3 seguem o mesmo padrão ... */}
+                        {/*   <label htmlFor="usuportifolio">Portfólio: </label>
+                            <input type="text" id="usuportifolio" name="usuportifolio" value={usuario.usuportifolio} onChange={handleChange} />
+                            <br /> */}
+                            <div className={styles.buttonGroup}>
                             <button type="button" onClick={etapaAnterior}>Voltar</button>
                             <button type="button" onClick={proximaEtapa}>Avançar</button>
-                        </div>
-                    </>
-                )}
-                {etapa === 3 && (
-                    <>
-                        <h4>Escolha suas habilidades:</h4>
-                        <div className={styles.tagList}>
-                            {tagsDisponiveis.map(tag => {
-                                console.log(`Tag: ${tag}, Selecionada: ${usuario.usutags.includes(tag)}`);
-                                return (
-                                    <button
-                                        key={tag}
-                                        type="button"
-                                        className={`${styles.tagButton} ${usuario.usutags.includes(tag) ? styles.tagButtonSelected : ''}`}
-                                        onClick={() => handleTagToggle(tag)}
-                                    >
-                                        {tag}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                        {/* ... outros campos da etapa 3 seguem o mesmo padrão ... */}
-                     {/*   <label htmlFor="usuportifolio">Portfólio: </label>
-                        <input type="text" id="usuportifolio" name="usuportifolio" value={usuario.usuportifolio} onChange={handleChange} />
-                        <br /> */}
-                        <div className={styles.buttonGroup}>
-                        <button type="button" onClick={etapaAnterior}>Voltar</button>
-                        <button type="button" onClick={proximaEtapa}>Avançar</button>
-                        </div>
-                    </>
-                )}
-                {etapa === 4 && (
-                    <>
-                        <h4>Defina seu nível de proficiência:</h4>
-                        {usuario.usutags.length > 0 ? (
-                            <table className={styles.proficienciaTable}>
-                                <thead>
-                                <tr>
-                                    <th>Tag</th>
-                                    <th>Nível de Proficiência</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    {usuario.usutags.map(tag => (
-                                        <tr key={tag}>
-                                            <td>{tag}</td>
-                                            <td>
-                                                <select
-                                                    name={`proficiencia-${tag}`}
-                                                    value={usuario.usuproficiencia[tag] || ''}
-                                                    onChange={(e) => handleProficienciaChange(tag, e.target.value)}
-                                                >
-                                                    <option value="">Selecione...</option>
-                                                    <option value="Básico">Básico</option>
-                                                    <option value="Intermediário">Intermediário</option>
-                                                    <option value="Avançado">Avançado</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <p>Você não selecionou nenhuma tag. Pode avançar para finalizar seu cadastro!</p>
-                            )}
-                        <div className={styles.buttonGroup}>
-                            <button type="button" onClick={etapaAnterior}>Voltar</button>
-                            <button type="submit" onClick={fim}>Salvar Perfil</button>
-                        </div>
-                    </>
-                )}
-            </form>
-        </div>
+                            </div>
+                        </>
+                    )}
+                    {etapa === 4 && (
+                        <>
+                            <h4>Defina seu nível de proficiência:</h4>
+                            {usuario.usutags.length > 0 ? (
+                                <table className={styles.proficienciaTable}>
+                                    <thead>
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Nível de Proficiência</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {usuario.usutags.map(tag => (
+                                            <tr key={tag}>
+                                                <td>{tag}</td>
+                                                <td>
+                                                    <select
+                                                        name={`proficiencia-${tag}`}
+                                                        value={usuario.usuproficiencia[tag] || ''}
+                                                        onChange={(e) => handleProficienciaChange(tag, e.target.value)}
+                                                    >
+                                                        <option value="">Selecione...</option>
+                                                        <option value="Básico">Básico</option>
+                                                        <option value="Intermediário">Intermediário</option>
+                                                        <option value="Avançado">Avançado</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <p>Você não selecionou nenhuma tag. Pode avançar para finalizar seu cadastro!</p>
+                                )}
+                            <div className={styles.buttonGroup}>
+                                <button type="button" onClick={etapaAnterior}>Voltar</button>
+                                <button type="submit" onClick={fim}>Salvar Perfil</button>
+                            </div>
+                        </>
+                    )}
+                </form>
+            </div>
+        </>
     );
 }
