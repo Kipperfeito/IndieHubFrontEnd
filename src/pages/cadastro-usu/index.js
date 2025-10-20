@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Form.module.css";
-import Header from '@/components/Header';
+import Header from '@/components/HeaderLog';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 // Supondo que você tenha uma instância 'api' configurada para requisições
@@ -229,7 +229,10 @@ export default function CadastroUsuario() {
         });
     };
 
-    const fim = () => {alert("Salvado!")}
+    const fim = (res) => {
+        alert("Salvado!")
+        console.log(res.data)
+    }
 
     return (
         <>
@@ -269,7 +272,7 @@ export default function CadastroUsuario() {
                                             {mostrarSenha ? <FiEye /> : <FiEyeOff />}
                                         </button>
                                 </div>
-                                {/* NOVO: Lista de requisitos para a senha */}
+                                {/*Lista de requisitos para a senha */}
                                 {erroSenha &&
                                 <div className={styles.requisitosSenha}>
                                     <strong>A senha deve conter:</strong>
@@ -374,6 +377,9 @@ export default function CadastroUsuario() {
                                 <button type="button" onClick={etapaAnterior}>Voltar</button>
                                 <button type="submit" onClick={fim}>Salvar Perfil</button>
                             </div>
+                            <pre className="text-sm overflow-x-auto">
+                                {JSON.stringify(usuario, null, 2)}
+                            </pre>
                         </>
                     )}
                 </form>
