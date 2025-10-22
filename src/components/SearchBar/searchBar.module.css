@@ -1,0 +1,34 @@
+
+.searchBarWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px; /* Defina a largura máxima que desejar */
+  margin: 20px 0; /* Espaçamento para o exemplo */
+}
+
+/* O campo de input */
+.searchInput {
+  width: 100%;
+  height: 45px;
+  padding: 10px 20px 10px 45px; /* O 'padding-left: 45px' dá espaço para o ícone */
+  border-radius: 25px; /* Bordas arredondadas */
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none; /* Remove a borda azul ao focar */
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #0070f3; /* Destaque azul ao focar */
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.5);
+}
+
+/* O ícone de busca */
+#searchIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%); /* Centraliza o ícone verticalmente */
+  color: #888;
+  font-size: 1.1rem;
+}

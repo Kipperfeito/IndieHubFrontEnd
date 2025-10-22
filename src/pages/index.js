@@ -1,5 +1,5 @@
 import Head from "next/head";
-
+import Header from '@/components/Header';
 // biblioteca como 'lucide-react'
 import { Users, Puzzle, Search } from 'lucide-react';
 export default function Home() {
@@ -15,21 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="main-header">
-        <nav className="main-nav">
-          <a href="#" className="logo">
-            Indie Hub
-          </a>
-          <div className="nav-links">
-            <a href="/login" className="btn btn-secondary">
-              Entrar
-            </a>
-            <a href="/cadastro-usu" className="btn btn-primary">
-              Criar conta
-            </a>
-          </div>
-        </nav>
-      </header>
+      <Header/>
 
       <main className="landing-page">
         <section className="hero-section container">

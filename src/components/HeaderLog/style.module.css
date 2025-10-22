@@ -80,12 +80,12 @@
 
 .notification_icon {
   position: relative;
-    font-size: 20px;   /* Tamanho do ícone */
-    color: #333;       /* Cor do ícone */
-    cursor: pointer;
-    display: inline-block; /* Para se ajustar ao conteúdo */
-    margin-bottom: 0%;
-    margin-left: 76%;
+  font-size: 20px;   /* Tamanho do ícone */
+  color: #333;       /* Cor do ícone */
+  cursor: pointer;
+  display: inline-block; /* Para se ajustar ao conteúdo */
+  margin-bottom: 0%;
+  margin-left: auto;
 }
 
 .notification_badge {
@@ -99,8 +99,6 @@
     height: 10px;
     background-color: red;
     border-radius: 50%; /* Para fazer dele um círculo */
-    
-    /* Borda branca para destacar do ícone */
     border: 2px solid white; 
 }
 
@@ -111,6 +109,24 @@
     /* Quando o container tiver a classe .has-notifications,
        o .notification-badge dentro dele será exibido! */
     display: block; 
+}
+
+.nav_links {
+  position: relative;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  margin-right: 10%;
+  gap: 10px;
+}
+
+.motivacao {
+  color: #1e1e1e;
+  font-weight: bolder;
+  margin-left: 5%;
+  font-size: x-large;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  white-space: nowrap;
 }
 
 /* HEADER DARK (modo escuro) */
@@ -149,6 +165,7 @@
     display: flex;
     align-items: center;
     margin: 0;
+    margin-left: 1%;
     padding: 0;
     gap: 20px;
     border-bottom: 2px solid #1976d2;
