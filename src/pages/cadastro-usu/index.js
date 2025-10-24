@@ -3,14 +3,11 @@ import { useRouter } from "next/router";
 import styles from "@/styles/Form.module.css";
 import Header from '@/components/HeaderLog';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-
-// Supondo que você tenha uma instância 'api' configurada para requisições
-// import api from '../services/api'; 
+import api from "@/services/api"
 
 export default function CadastroUsuario() {
     const router = useRouter();
 
-    // --- ESTADOS ---
     // 1. Todos os hooks useState devem vir no início do componente.
     const [etapa, setEtapa] = useState(1);
     const [usuario, setUsuario] = useState({
@@ -165,17 +162,26 @@ export default function CadastroUsuario() {
         setErro(''); // Limpa erros ao voltar
         setEtapa(etapa - 1);
     };
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         setErro('');
 
-        console.log("Enviando para a API:", usuario);
+        const dadosParaEnviar = {
+            ...usuario,
+            
+            // O objeto {"C#": "Básico"} vira a string '{"C#": "Básico"}'
+            usuproficiencia: JSON.stringify(usuario.usuproficiencia),
+            
+            // O array ["C#", "React"] vira a string '["C#", "React"]'
+            usutags: JSON.stringify(usuario.usutags)
+        };
 
-        // O objeto 'usuario' do estado já tem todos os dados!
-        /*
+        // 3. Verifique no console o que você está enviando
+        console.log("Enviando para a API (formatado):", dadosParaEnviar);
+
         api
-            .post("/usuarios/", usuario) // Envia o objeto do estado diretamente
+            .post("/usuarios/", dadosParaEnviar) // Envia o objeto do estado diretamente
             .then((res) => {
                 console.log(res.data);
                 alert("Usuário salvo com sucesso!");
@@ -186,7 +192,6 @@ export default function CadastroUsuario() {
                 const mensagemErro = err?.response?.data?.message ?? err.message;
                 setErro(`Ocorreu um erro ao salvar: ${mensagemErro}`);
             });
-        */
     };
     const tagsDisponiveis = [
         'C#',
@@ -228,11 +233,6 @@ export default function CadastroUsuario() {
             },
         });
     };
-
-    const fim = (res) => {
-        alert("Salvado!")
-        console.log(res.data)
-    }
 
     return (
         <>
@@ -375,7 +375,7 @@ export default function CadastroUsuario() {
                                 )}
                             <div className={styles.buttonGroup}>
                                 <button type="button" onClick={etapaAnterior}>Voltar</button>
-                                <button type="submit" onClick={fim}>Salvar Perfil</button>
+                                <button type="submit" onClick={handleSubmit}>Salvar Perfil</button>
                             </div>
                             <pre className="text-sm overflow-x-auto">
                                 {JSON.stringify(usuario, null, 2)}
