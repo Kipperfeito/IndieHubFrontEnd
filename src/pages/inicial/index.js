@@ -1,7 +1,6 @@
 import { useState } from "react";
-// Importamos o SearchBar (SEM chaves, pois usamos 'export default')
 import SearchBar from "@/components/SearchBar"; 
-// (Ajuste o caminho '..' se necessário)
+import CardProjeto from "@/components/CardProjeto"
 
 // Componente de lista de resultados (vou criar uma components de RESULTADOS)
 const SearchResultsList = ({ results }) => {
@@ -54,7 +53,8 @@ export default function TelaInicial() {
       
       {/* 4. Exibimos os resultados que estão no nosso estado 'results' */}
       <SearchResultsList results={results} />
-
+      
+      <CardProjeto />
     </div>
   );
 }

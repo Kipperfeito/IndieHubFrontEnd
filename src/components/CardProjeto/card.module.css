@@ -1,0 +1,67 @@
+
+/* Estilo da Grade da Galeria (usado em ProjectGallery.js) */
+.galleryContainer {
+  display: grid;
+  /* Cria colunas responsivas: 1 em telas pequenas, 2 em médias, 3 em largas */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem; /* Espaço entre os cards */
+  padding: 1rem 0;
+}
+
+/* Estilo do Link (para fazer o card inteiro ser clicável) */
+.cardLink {
+  text-decoration: none; /* Remove sublinhado do link */
+  color: inherit;      /* Herda a cor do texto padrão */
+  display: block;        /* Faz o link preencher o espaço do grid */
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cardLink:hover,
+.cardLink:focus {
+  transform: translateY(-5px); /* Efeito de "levantar" */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo do Card (usado em Card.js) */
+.card {
+  background-color: var(--indiehub-preto-card);
+  border: 1px solid var(--indiehub-borda);
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: 100%; /* Garante que todos os cards tenham a mesma altura */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Empurra os metadados para baixo */
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--indiehub-primaria); /* Cor de destaque no título */
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.card .descricao {
+  font-size: 0.9rem;
+  color: var(--indiehub-texto-principal);
+  line-height: 1.5;
+  flex-grow: 1; /* Faz a descrição ocupar o espaço disponível */
+  margin-bottom: 1rem;
+}
+
+.card .metaData {
+  font-size: 0.8rem;
+  color: var(--indiehub-texto-secundario);
+  border-top: 1px solid var(--indiehub-borda);
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card .metaData span strong {
+  color: var(--indiehub-texto-principal);
+  font-weight: 500;
+}
