@@ -61,7 +61,7 @@
                   </ul>
               )}
           </li>
-          <li className={style.menuItem}><a href="/projetos">Projetos</a></li>
+          <li className={style.menuItem}><a href="/cadastro-proj">Projetos</a></li>
           <li className={style.menuItem}><a href="/tags">Vagas</a></li>
             <li 
                 // A mágica acontece aqui:

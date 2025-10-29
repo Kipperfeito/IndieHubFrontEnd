@@ -51,7 +51,7 @@ export default function ProjectGallery() {
 
                                 <div className={styles.metaData}>
                                     <span>
-                                        <strong>Owner:</strong> {projeto.ownerId}
+                                        <strong>Owner:</strong> {projeto.owner ? projeto.owner.usunome : 'Desconhecido'}
                                     </span>
                                     <span>
                                         <strong>Publicado em:</strong> {formatarData(projeto.projdatapublicacao)}

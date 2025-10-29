@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SearchBar from "@/components/SearchBar"; 
 import CardProjeto from "@/components/CardProjeto"
+import HeaderLog from "@/components/HeaderLog"
 
 // Componente de lista de resultados (vou criar uma components de RESULTADOS)
 const SearchResultsList = ({ results }) => {
@@ -37,24 +38,24 @@ export default function TelaInicial() {
   const [results, setResults] = useState([]);
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      padding: '40px' 
-    }}>
-
-      <h1>Encontre Criadores</h1>
-      
-      {/* 3. Passamos 'setResults' para a SearchBar. 
-        A SearchBar usará essa função para nos enviar os dados.
-      */}
-      <SearchBar setResults={setResults} />
-      
-      {/* 4. Exibimos os resultados que estão no nosso estado 'results' */}
-      <SearchResultsList results={results} />
-      
-      <CardProjeto />
-    </div>
+    <>
+      <HeaderLog />
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        padding: '40px' 
+      }}>
+        {/* 3. Passamos 'setResults' para a SearchBar. 
+          A SearchBar usará essa função para nos enviar os dados.
+        */}
+        <SearchBar setResults={setResults} />
+        
+        {/* 4. Exibimos os resultados que estão no nosso estado 'results' */}
+        <SearchResultsList results={results} />
+        
+        <CardProjeto />
+      </div>
+    </>
   );
 }

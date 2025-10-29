@@ -177,15 +177,14 @@ export default function CadastroUsuario() {
             usutags: JSON.stringify(usuario.usutags)
         };
 
-        // 3. Verifique no console o que você está enviando
         console.log("Enviando para a API (formatado):", dadosParaEnviar);
 
         api
-            .post("/usuarios/", dadosParaEnviar) // Envia o objeto do estado diretamente
+            .post("/usuarios/", dadosParaEnviar)
             .then((res) => {
                 console.log(res.data);
                 alert("Usuário salvo com sucesso!");
-                // router.push("/alguma-pagina");
+                router.push("/inicial");
             })
             .catch((err) => {
                 console.error(err);
