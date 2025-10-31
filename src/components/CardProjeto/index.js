@@ -26,18 +26,40 @@ export default function ProjectGallery() {
         const [ano, mes, dia] = dataString.split('-');
         return `${dia}/${mes}/${ano}`;
     }
+
+    function renderVagasAbertas(vagas) {
+        if (!vagas || vagas.length === 0) {
+            return <span className="project-tag">(Sem vagas)</span>;
+        }
+
+        const vagasAbertas = vagas.filter(vaga => vaga.vagastatus === "Aberta");
+
+        if (vagasAbertas.length === 0) {
+            return <span className="project-tag">(Sem vagas abertas no momento)</span>;
+        }
+
+        // 2. Pega os títulos das vagas abertas
+        const titulosVagas = vagasAbertas.map(vaga => vaga.vagatitulo);
+
+        // 3. Monta o JSX final
+        return (
+            <span className="project-tag">
+                <strong>Vagas Abertas:</strong> 
+                {/* Junta os títulos com vírgula. Ex: "Programador, Artista 2D" */}
+                {titulosVagas.join(', ')}
+            </span>
+        );
+    }
     
     return (
         <section>
             <h1>Listagem de Projetos</h1>
-            {/* Renomeei a classe para algo mais genérico */}
             <div className={styles.galleryContainer}>
                 {projetos?.length > 0 &&
                     projetos.map((projeto) => (
-                        // Adicionado Link para navegar para /projeto/[id]
-                        // Assumindo que seu objeto 'projeto' tem um 'id'
+
                         <Link
-                            href={`/projeto/${projeto.id}`}
+                            href={`/tela-proj/${projeto.id}`}
                             key={projeto.id}
                             className={styles.cardLink}
                         >
@@ -56,6 +78,7 @@ export default function ProjectGallery() {
                                     <span>
                                         <strong>Publicado em:</strong> {formatarData(projeto.projdatapublicacao)}
                                     </span>
+                                    {renderVagasAbertas(projeto.vagas)}
                                 </div>
                             </div>
                         </Link>

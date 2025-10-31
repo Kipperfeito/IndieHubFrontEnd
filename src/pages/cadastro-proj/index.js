@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styles from "@/styles/Form.module.css"; 
 import Header from '@/components/HeaderLog';
 import api from "@/services/api";
+import { useAuth } from '@/context/AuthContext';
 
 export default function CadastroProjeto() {
     const router = useRouter();
@@ -20,7 +21,11 @@ export default function CadastroProjeto() {
     const [usuariosDisponiveis, setUsuariosDisponiveis] = useState([]);
     const [erro, setErro] = useState('');
 
-    const idDoUsuarioLogado = 1;
+    const [mediaLista, setMediaLista] = useState([]);
+    const [mediaTipo, setMediaTipo] = useState('imagem');
+    const [mediaUrl, setMediaUrl] = useState('');
+
+    const { user } = useAuth();
 
     useEffect(() => {
         api.get("/usuarios") // Assumindo que este é seu endpoint de listagem
@@ -82,9 +87,36 @@ export default function CadastroProjeto() {
         setEtapa(etapa - 1);
     };
 
+    const handleAddMedia = (e) => {
+        e.preventDefault(); // Impede o submit do formulário
+        if (!mediaUrl) {
+            setErro("Por favor, cole uma URL.");
+            return;
+        }
+        
+        // Adiciona a nova mídia à lista
+        setMediaLista([
+            ...mediaLista, 
+            { tipo: mediaTipo, url: mediaUrl }
+        ]);
+        setMediaUrl('');
+        setErro('');
+    };
+    
+    const handleRemoveMedia = (urlParaRemover) => {
+        setMediaLista(mediaLista.filter(item => item.url !== urlParaRemover));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setErro('');
+
+        if (!user || !user.id) {
+            setErro("Você precisa estar logado para criar um projeto.");
+            // (Opcional: redirecionar para o login)
+            // router.push('/login');
+            return;
+        }
 
         const hoje = new Date();
         
@@ -94,6 +126,9 @@ export default function CadastroProjeto() {
         const dadosParaEnviar = {
             ...projeto,
             projdatapublicacao: dataFormatada,
+            ownerId: user.id,
+            colaboradores: projeto.colaboradores,
+            projmedia: mediaLista
         };
 
         console.log("Enviando para a API:", dadosParaEnviar);
@@ -219,6 +254,42 @@ export default function CadastroProjeto() {
                             </div>
 
                             {/* Botão de 'submit' agora está na Etapa 3 */}
+                            <div className={styles.buttonGroup}>
+                                <button type="button" onClick={etapaAnterior}>Voltar</button>
+                                <button type="button" onClick={proximaEtapa}>Avançar</button>
+                            </div>
+                        </>
+                    )}
+                    {etapa === 4 && (
+                        <>
+                            <h4>Etapa 4: Mídia do Projeto</h4>
+                            <p>Adicione links de imagens (Imgur, etc.) e vídeos (YouTube).</p>
+
+                            <div className={styles.mediaInputGroup}>
+                                <select value={mediaTipo} onChange={(e) => setMediaTipo(e.target.value)}>
+                                    <option value="imagem">Imagem</option>
+                                    <option value="video">Vídeo (YouTube)</option>
+                                </select>
+                                <input 
+                                    type="text"
+                                    placeholder="Cole a URL aqui..."
+                                    value={mediaUrl}
+                                    onChange={(e) => setMediaUrl(e.target.value)}
+                                />
+                                <button type="button" onClick={handleAddMedia}>Adicionar</button>
+                            </div>
+
+                            {/* Lista de mídias já adicionadas */}
+                            <div className={styles.mediaPreviewList}>
+                                {mediaLista.length === 0 && <p>Nenhuma mídia adicionada.</p>}
+                                {mediaLista.map((item, index) => (
+                                    <div key={index} className={styles.mediaPreviewItem}>
+                                        <span><strong>{item.tipo}:</strong> {item.url.substring(0, 40)}...</span>
+                                        <button type="button" onClick={() => handleRemoveMedia(item.url)}>Remover</button>
+                                    </div>
+                                ))}
+                            </div>
+                            
                             <div className={styles.buttonGroup}>
                                 <button type="button" onClick={etapaAnterior}>Voltar</button>
                                 <button type="submit">Salvar Projeto</button>

@@ -3,7 +3,7 @@
   import { FiBell } from "react-icons/fi";
 
 
-  export default function Header() {
+  export default function HeaderLog() {
     const [menuAberto, setMenuAberto] = useState(null);
     const timerRef = useRef(null);
     const handleToggle = (menuId) => {
@@ -47,16 +47,16 @@
           <li
               className={style.dropdown}
               // 4. Usamos as novas funções genéricas no <li> para uma melhor experiência
-              onMouseEnter={() => handleMouseEnter('veiculo')}
+              onMouseEnter={() => handleMouseEnter('perfil')}
               onMouseLeave={handleMouseLeave}
           >
-              <button onClick={() => handleToggle('veiculo')} className={style.dropdown_toggle}>
+              <button onClick={() => handleToggle('perfil')} className={style.dropdown_toggle}>
                   Perfil ▼
               </button>
-              {/* A condição agora verifica se o estado é igual ao ID 'veiculo' */}
-              {menuAberto === 'veiculo' && (
+              {/* A condição agora verifica se o estado é igual ao ID 'perfil' */}
+              {menuAberto === 'perfil' && (
                   <ul className={style.dropdown_menu}>
-                      <li><a href="/veiculo">Editar Perfil</a></li>
+                      <li><a href="/perfil">Editar Perfil</a></li>
                       <li><a>Logout</a></li>
                   </ul>
               )}
