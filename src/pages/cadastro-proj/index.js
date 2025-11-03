@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Form.module.css"; 
-import Header from '@/components/HeaderLog';
 import api from "@/services/api";
 import { useAuth } from '@/context/AuthContext';
 
@@ -27,22 +26,40 @@ export default function CadastroProjeto() {
 
     const { user } = useAuth();
 
+    const [links, setLinks] = useState({
+        github: '',
+        itchio: '',
+        website: ''
+    });
+    
     useEffect(() => {
-        api.get("/usuarios") // Assumindo que este é seu endpoint de listagem
-            .then(res => {
-                // Filtra a lista para NÃO mostrar o próprio dono como opção
-                const outrosUsuarios = res.data.filter(user => user.id !== idDoUsuarioLogado);
-                setUsuariosDisponiveis(outrosUsuarios);
-            })
-            .catch(err => {
-                console.error("Erro ao buscar usuários:", err);
-                setErro("Não foi possível carregar a lista de usuários.");
-            });
-    }, [idDoUsuarioLogado]);
+        if(user && user.id) {
+            const idDoDono = user.id;
+
+            api.get("/usuarios") // Assumindo que este é seu endpoint de listagem
+                .then(res => {
+                    // Filtra a lista para NÃO mostrar o próprio dono como opção
+                    const outrosUsuarios = res.data.filter(user => user.id !== idDoDono);
+                    setUsuariosDisponiveis(outrosUsuarios);
+                })
+                .catch(err => {
+                    console.error("Erro ao buscar usuários:", err);
+                    setErro("Não foi possível carregar a lista de usuários.");
+                });
+        }
+    }, [user]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProjeto({ ...projeto, [name]: value });
+    };
+
+    const handleLinkChange = (e) => {
+        const { name, value } = e.target;
+        setLinks(prevLinks => ({
+            ...prevLinks,
+            [name]: value
+        }));
     };
 
     const handleColaboradorToggle = (idUsuario) => {
@@ -110,17 +127,14 @@ export default function CadastroProjeto() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErro('');
-
+        //VERIFICAÇÃO DE LOGIN
         if (!user || !user.id) {
             setErro("Você precisa estar logado para criar um projeto.");
-            // (Opcional: redirecionar para o login)
-            // router.push('/login');
+            router.push('/login');
             return;
         }
 
         const hoje = new Date();
-        
-        // Formata a data para 'YYYY-MM-DD' (padrão que o Sequelize DATEONLY entende)
         const dataFormatada = hoje.toISOString().split('T')[0];
 
         const dadosParaEnviar = {
@@ -128,7 +142,8 @@ export default function CadastroProjeto() {
             projdatapublicacao: dataFormatada,
             ownerId: user.id,
             colaboradores: projeto.colaboradores,
-            projmedia: mediaLista
+            projmedia: mediaLista,
+            projlinks: links
         };
 
         console.log("Enviando para a API:", dadosParaEnviar);
@@ -149,7 +164,6 @@ export default function CadastroProjeto() {
 
     return (
         <>
-            <Header />
             <div className={styles.container}>
                 <h3>Formulário de Cadastro de Projeto</h3>
                 
@@ -292,14 +306,59 @@ export default function CadastroProjeto() {
                             
                             <div className={styles.buttonGroup}>
                                 <button type="button" onClick={etapaAnterior}>Voltar</button>
+                                <button type="button" onClick={proximaEtapa}>Avançar</button>
+                            </div>
+                        </>
+                    )}
+                    {etapa === 5 && (
+                        <>
+                            <h4>Etapa 5: Links (Opcional)</h4>
+                            <p>Cole os links relevantes para o seu projeto.</p>
+
+                            <label htmlFor="github">GitHub:</label>
+                            <input
+                                type="url" 
+                                id="github"
+                                name="github"
+                                placeholder="https://github.com/seu-usuario/projeto"
+                                value={links.github}
+                                onChange={handleLinkChange}
+                            />
+                            <br />
+
+                            <label htmlFor="itchio">Itch.io:</label>
+                            <input
+                                type="url"
+                                id="itchio"
+                                name="itchio"
+                                placeholder="https://seu-usuario.itch.io/jogo"
+                                value={links.itchio}
+                                onChange={handleLinkChange}
+                            />
+                            <br />
+
+                            <label htmlFor="website">Website / Outro:</label>
+                            <input
+                                type="url"
+                                id="website"
+                                name="website"
+                                placeholder="https://seusite.com/demo"
+                                value={links.website}
+                                onChange={handleLinkChange}
+                            />
+                            <br />
+
+                            {/* Botão de submit final */}
+                            <div className={styles.buttonGroup}>
+                                <button type="button" onClick={etapaAnterior}>Voltar</button>
                                 <button type="submit">Salvar Projeto</button>
                             </div>
                         </>
                     )}
                 </form>
 
-                {/* Bloco de depuração (opcional) */}
-                <pre style={{ marginTop: '20px', background: '#eee', padding: '10px', borderRadius: '5px' }}>
+                Bloco de depuração (opcional)
+                <pre style={{ marginTop: '20px', background: '#000000ff', padding: '10px', borderRadius: '5px' }}>
                     {JSON.stringify(projeto, null, 2)}
                 </pre>
             </div>

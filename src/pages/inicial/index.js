@@ -1,7 +1,6 @@
 import { useState } from "react";
 import SearchBar from "@/components/SearchBar"; 
 import CardProjeto from "@/components/CardProjeto"
-import HeaderLog from "@/components/HeaderLog"
 
 // Componente de lista de resultados (vou criar uma components de RESULTADOS)
 const SearchResultsList = ({ results }) => {
@@ -39,7 +38,6 @@ export default function TelaInicial() {
 
   return (
     <>
-      <HeaderLog />
       <div style={{ 
         display: 'flex', 
         flexDirection: 'column', 

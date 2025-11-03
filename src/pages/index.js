@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Header from '@/components/Header';
 // biblioteca como 'lucide-react'
 import { Users, Puzzle, Search } from 'lucide-react';
 export default function Home() {
@@ -15,8 +14,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header/>
-
       <main className="landing-page">
         <section className="hero-section container">
           <h1>Sua Guilda de Desenvolvimento de Jogos</h1>
@@ -27,7 +24,7 @@ export default function Home() {
             <a href="/cadastro-usu" className="btn btn-primary">
               Comece a Colaborar
             </a>
-            <a href="#features" className="btn btn-secondary">
+            <a href="/inicial" className="btn btn-secondary">
               Explorar Recursos
             </a>
           </div>

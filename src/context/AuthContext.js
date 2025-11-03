@@ -44,7 +44,6 @@ export function AuthProvider({ children }) {
                 // --- FIM DA MUDANÇA ---
 
             } catch (e) {
-                // Se o token for inválido (expirado, etc)
                 console.error("Token inválido.", e);
                 localStorage.removeItem('accessToken');
                 setLoading(false);

@@ -1,9 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import api from '@/services/api';
-import HeaderLog from '@/components/HeaderLog';
 import VagaCard from '@/components/VagaCard'; // Nosso novo componente
 import styles from './ProjetoDetalhe.module.css';
+
+const ChevronLeftIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M15 18l-6-6 6-6"/>
+    </svg>
+);
+const ChevronRightIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 18l6-6-6-6"/>
+    </svg>
+);
+const CloseIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+);
 
 function getYoutubeEmbedUrl(url) {
     try {
@@ -42,6 +58,9 @@ export default function ProjetoDetalhe() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    const [currentMediaIndex, setCurrentMediaIndex] = useState(0); // Índice da mídia visível (destaque ou lightbox)
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false); // Estado do lightbox
+
     useEffect(() => {
 
         if (id) {
@@ -50,6 +69,9 @@ export default function ProjetoDetalhe() {
             api.get(`/projetos/${id}`)
                 .then(res => {
                     setProjeto(res.data);
+                    if (res.data.projmedia && res.data.projmedia.length > 0) {
+                        setCurrentMediaIndex(0); 
+                    }
                     console.log("Projeto carregado:", res.data);
                 })
                 .catch(err => {
@@ -79,48 +101,139 @@ export default function ProjetoDetalhe() {
     const vagasAbertas = projeto.vagas
         ? projeto.vagas.filter(vaga => vaga.vagastatus === 'Aberta')
         : [];
+    
+    const links = projeto.projlinks || {};
+    const linksValidos = Object.entries(links).filter(([key, url]) => url && url.trim() !== '');
+
+    const mediaItems = projeto.projmedia || [];
+    const hasMedia = mediaItems.length > 0;
+    const currentMedia = hasMedia ? mediaItems[currentMediaIndex] : null;
+
+    const navigateMedia = (direction) => {
+        let newIndex = currentMediaIndex + direction;
+        if (newIndex < 0) {
+            newIndex = mediaItems.length - 1; // Volta para o final
+        } else if (newIndex >= mediaItems.length) {
+            newIndex = 0; // Vai para o começo
+        }
+        setCurrentMediaIndex(newIndex);
+    };
+
+    const openLightbox = (index) => {
+        setCurrentMediaIndex(index);
+        setIsLightboxOpen(true);
+    };
+
+    const closeLightbox = () => {
+        setIsLightboxOpen(false);
+        // Para vídeos, parar o autoplay quando fechar o lightbox
+        setCurrentMediaIndex(0); // Volta para a primeira mídia ao fechar
+    };
+
+
+    // --- FUNÇÃO AUXILIAR PARA RENDERIZAR UM ITEM DE MÍDIA ---
+    const renderMediaItem = (item, isMainView = false) => {
+        if (!item) return null;
+
+        if (item.tipo === 'imagem') {
+            return (
+                <img 
+                    src={item.url} 
+                    alt={`Mídia do projeto`} 
+                    className={isMainView ? styles.mainMediaImage : styles.thumbnailImage}
+                    onClick={() => isMainView && openLightbox(currentMediaIndex)} // Abre lightbox ao clicar na imagem principal
+                />
+            );
+        }
+
+        if (item.tipo === 'video') {
+            const embedUrl = getYoutubeEmbedUrl(item.url);
+            if (!embedUrl) return null;
+
+            // Para vídeos, o thumbnail pode ser uma imagem de placeholder ou o iframe
+            if (isMainView || isLightboxOpen) { // Renderiza iframe apenas na vista principal ou lightbox
+                return (
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        src={embedUrl}
+                        title={`Vídeo do projeto`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen>
+                    </iframe>
+                );
+            } else {
+                // Para miniaturas de vídeo, você pode tentar pegar a thumb do YouTube
+                // Ou usar uma imagem genérica de placeholder
+                const videoId = item.url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1];
+                const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "https://via.placeholder.com/200x112?text=Video";
+                return (
+                    <div className={styles.videoThumbnailWrapper}>
+                        <img 
+                            src={thumbnailUrl} 
+                            alt="Video Thumbnail" 
+                            className={styles.thumbnailImage} 
+                            onClick={() => openLightbox(currentMediaIndex)}
+                        />
+                        <div className={styles.playIcon}>▶</div> {/* Ícone de play */}
+                    </div>
+                );
+            }
+        }
+        return null;
+    };
 
     return (
         <>
-            <HeaderLog />
             <div className={styles.container}>
 
                 {/* 1. MÍDIA (Imagens e Vídeos) */}
-                <section className={styles.mediaGallery}>
-                    {/* Verifica se tem mídia e se o array não está vazio */}
-                    {(!projeto.projmedia || projeto.projmedia.length === 0) && (
-                        <img src="https://via.placeholder.com/800x450?text=Projeto+Sem+Mídia" alt="Mídia do Projeto" />
-                    )}
+                <section className={styles.mediaSection}>
+                        <div className={styles.mainMediaViewer}>
+                            {!hasMedia ? (
+                                <img src="https://via.placeholder.com/800x450?text=Projeto+Sem+Mídia" alt="Mídia do Projeto" className={styles.mainMediaImage} />
+                            ) : (
+                                <>
+                                    {/* Botões de navegação para a mídia principal */}
+                                    {hasMedia && mediaItems.length > 1 && (
+                                        <>
+                                            <button 
+                                                className={`${styles.navButton} ${styles.prevButton}`} 
+                                                onClick={() => navigateMedia(-1)}
+                                                aria-label="Mídia anterior"
+                                            >
+                                                <ChevronLeftIcon />
+                                            </button>
+                                            <button 
+                                                className={`${styles.navButton} ${styles.nextButton}`} 
+                                                onClick={() => navigateMedia(1)}
+                                                aria-label="Próxima mídia"
+                                            >
+                                                <ChevronRightIcon />
+                                            </button>
+                                        </>
+                                    )}
+                                    {renderMediaItem(currentMedia, true)}
+                                </>
+                            )}
+                        </div>
 
-                    {projeto.projmedia && projeto.projmedia.map((item, index) => {
-                        // RENDERIZA IMAGEM
-                        if (item.tipo === 'imagem') {
-                            return (
-                                <img key={index} src={item.url} alt={`Mídia do projeto ${index + 1}`} />
-                            );
-                        }
-
-                        // RENDERIZA VÍDEO
-                        if (item.tipo === 'video') {
-                            const embedUrl = getYoutubeEmbedUrl(item.url);
-                            if (!embedUrl) return null; // Ignora links de vídeo inválidos
-
-                            return (
-                                <iframe
-                                    key={index}
-                                    width="800"
-                                    height="450"
-                                    src={embedUrl}
-                                    title={`Vídeo do projeto ${index + 1}`}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen>
-                                </iframe>
-                            );
-                        }
-                        return null; // Ignora tipos desconhecidos
-                    })}
-                </section>
+                        {/* Galeria de miniaturas */}
+                        {hasMedia && (
+                            <div className={styles.thumbnailGallery}>
+                                {mediaItems.map((item, index) => (
+                                    <div 
+                                        key={index} 
+                                        className={`${styles.thumbnailWrapper} ${index === currentMediaIndex ? styles.activeThumbnail : ''}`}
+                                        onClick={() => setCurrentMediaIndex(index)}
+                                    >
+                                        {renderMediaItem(item, false)} {/* Renderiza item como thumbnail */}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </section>
 
                 <main className={styles.mainContent}>
                     {/* 2. TÍTULO */}
@@ -138,10 +251,23 @@ export default function ProjetoDetalhe() {
                     {/* 4. LINKS */}
                     <section className={styles.links}>
                         <h2>Links</h2>
-                        {/* ASSUMINDO que 'projeto.projlinks' é um objeto */}
-                        {/* Ex: { github: '...', site: '...' } */}
-                        <a href="#" target="_blank" rel="noopener noreferrer">GitHub do Projeto</a>
-                        <a href="#" target="_blank" rel="noopener noreferrer">Website / Demo</a>
+                        
+                        {linksValidos.length > 0 ? (
+                            linksValidos.map(([plataforma, url]) => (
+                                <a 
+                                    key={plataforma} 
+                                    href={url} // URL dinâmica
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                >
+                                    {/* Transforma 'github' em 'GitHub', 'itchio' em 'Itch.io' */}
+                                    {plataforma.charAt(0).toUpperCase() + plataforma.slice(1)}
+                                </a>
+                            ))
+                        ) : (
+                            // Mensagem para quando não há links
+                            <p>Nenhum link foi adicionado a este projeto.</p>
+                        )}
                     </section>
 
                     {/* 5. VAGAS */}
@@ -169,6 +295,30 @@ export default function ProjetoDetalhe() {
                     </section>
                 </main>
             </div>
+            {isLightboxOpen && (
+                <div className={styles.lightboxOverlay} onClick={closeLightbox}>
+                    <div className={styles.lightboxContent} onClick={e => e.stopPropagation()}> {/* Impede fechar ao clicar na mídia */}
+                        <button className={styles.lightboxCloseButton} onClick={closeLightbox}>
+                            <CloseIcon />
+                        </button>
+                        
+                        {mediaItems.length > 1 && (
+                            <>
+                                <button className={`${styles.lightboxNavButton} ${styles.lightboxPrev}`} onClick={() => navigateMedia(-1)}>
+                                    <ChevronLeftIcon />
+                                </button>
+                                <button className={`${styles.lightboxNavButton} ${styles.lightboxNext}`} onClick={() => navigateMedia(1)}>
+                                    <ChevronRightIcon />
+                                </button>
+                            </>
+                        )}
+                        
+                        <div className={styles.lightboxMedia}>
+                            {renderMediaItem(currentMedia, true)}
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

@@ -1,10 +1,13 @@
   import style from './style.module.css'
   import { useState, useRef } from 'react';
   import { FiBell } from "react-icons/fi";
+  import Link from 'next/link';
+  import { useAuth } from '@/context/AuthContext';
 
 
   export default function HeaderLog() {
     const [menuAberto, setMenuAberto] = useState(null);
+    const { logout, user } = useAuth();
     const timerRef = useRef(null);
     const handleToggle = (menuId) => {
         setMenuAberto(menuAberto === menuId ? null : menuId);
@@ -30,7 +33,6 @@
         }
     };
 
-    // 4. Lógica para limpar as notificações
     const handleIconClick = () => {
         // Mostra o menu de notificações, etc.
         console.log('Notificações lidas!');
@@ -42,7 +44,7 @@
       <nav className={style.header}>
         <ul className={style.menu}>
           <li className={style.menuItem}>
-            <a href="/"><img className={style.logo} src="logoIndie.png" alt="Logo Indie" /></a>
+            <Link href="/inicial"><img className={style.logo} src="logoIndie.png" alt="Logo Indie" /></Link>
           </li>
           <li
               className={style.dropdown}
@@ -54,14 +56,32 @@
                   Perfil ▼
               </button>
               {/* A condição agora verifica se o estado é igual ao ID 'perfil' */}
-              {menuAberto === 'perfil' && (
-                  <ul className={style.dropdown_menu}>
-                      <li><a href="/perfil">Editar Perfil</a></li>
-                      <li><a>Logout</a></li>
-                  </ul>
-              )}
+                {menuAberto === 'perfil' && (
+                    <ul className={style.dropdown_menu}>
+                        <li><a href="/perfil">Editar Perfil</a></li>
+                        <li><button
+                            onClick={logout}
+                            className={style.dropdownButtonAsLink}>
+                            Logout
+                        </button>
+                        </li>
+                    </ul>
+                )}
           </li>
-          <li className={style.menuItem}><a href="/cadastro-proj">Projetos</a></li>
+          <li 
+            className={style.dropdown}
+            onMouseEnter={() => handleMouseEnter('projeto')}
+            onMouseLeave={handleMouseLeave}>
+                <button onClick={() => handleToggle('projeto')} className={style.dropdown_toggle}>
+                  Projeto ▼
+                </button>
+                {menuAberto === 'projeto' && (
+                  <ul className={style.dropdown_menu}>
+                      <li><a href="/tela-proj">Editar Projeto</a></li>
+                      <li><a href="/cadastro-proj">Criar Projeto</a></li>
+                  </ul>
+                )}
+            </li>
           <li className={style.menuItem}><a href="/tags">Vagas</a></li>
             <li 
                 // A mágica acontece aqui:

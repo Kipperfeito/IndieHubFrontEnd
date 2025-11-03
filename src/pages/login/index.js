@@ -37,32 +37,33 @@ export default function Login() {
             });
     };
 
-    // ... (o resto do seu JSX continua igual) ...
     return (
-        <div className={styles.container} style={{ minHeight: '100vh', justifyContent: 'center' }}>
-            <form onSubmit={handleSubmit} className={styles.formCadastro} style={{ maxWidth: '400px' }}>
-                <h3>Login</h3>
-                
-                {erro && <p className={styles.erro}>{erro}</p>}
+        <div className={styles.loginPageWrapper}>
+            <div className={styles.container} style={{ maxWidth: '420px', margin: '0' }}>
+                <form onSubmit={handleSubmit} className={styles.formCadastro}>
+                    <h3>Login</h3>
+                    
+                    {erro && <p className={styles.erro}>{erro}</p>}
 
-                <label htmlFor="usuemail">Email: </label>
-                <input 
-                    type="email" 
-                    id="usuemail" 
-                    value={usuemail}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <br />
-                <label htmlFor="ususenha">Senha: </label>
-                <input 
-                    type="password" 
-                    id="ususenha" 
-                    value={ususenha}
-                    onChange={(e) => setSenha(e.target.value)}
-                />
-                <br />
-                <button type="submit">Entrar</button>
-            </form>
+                    <label htmlFor="usuemail">Email: </label>
+                    <input 
+                        type="email" 
+                        id="usuemail" 
+                        value={usuemail}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <br />
+                    <label htmlFor="ususenha">Senha: </label>
+                    <input 
+                        type="password" 
+                        id="ususenha" 
+                        value={ususenha}
+                        onChange={(e) => setSenha(e.target.value)}
+                    />
+                    <br />
+                    <button type="submit">Entrar</button>
+                </form>
+            </div>
         </div>
     );
 }

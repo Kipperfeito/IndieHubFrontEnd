@@ -1,7 +1,20 @@
   import style from '../HeaderLog/style.module.css'
   import { useState, useRef } from 'react';
+  import { useAuth } from '@/context/AuthContext';
+  import { useRouter } from "next/router";
+
 
   export default function Header() {
+    const { user } = useAuth();
+    const router = useRouter();
+    
+    function CrieProjeto() {
+      if (!user || !user.id) {
+        alert("Você precisa estar logado para criar um projeto.");
+        router.push('/login');
+        return;
+      }
+    }
     return (
       <>
       <nav className={style.header}>
@@ -10,7 +23,7 @@
             <a href="/"><img className={style.logo} src="logoIndie.png" alt="Logo Indie" /></a>
           </li>
           <li className={style.motivacao}>
-            <a href='/cadastro-usu'>Crie seu Projeto</a>
+            <a onClick={CrieProjeto}>Crie seu Projeto</a>
           </li>
           <li className={style.nav_links}>
             <a href="/login" className="btn btn-secondary">

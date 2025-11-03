@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Form.module.css";
-import Header from '@/components/HeaderLog';
+import Link from "next/link";
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import api from "@/services/api"
 
@@ -235,7 +235,6 @@ export default function CadastroUsuario() {
 
     return (
         <>
-            <Header />
             <div className={styles.container}>
                 <h3>Formulário de Cadastro de Usuários</h3>
                 {/* Exibe a mensagem de erro aqui, de forma centralizada */}
@@ -383,6 +382,10 @@ export default function CadastroUsuario() {
                     )}
                 </form>
             </div>
+            <Link href={"/inicial"} style={{marginLeft: 10, marginRight: -10}} className="btn btn-secondary"> 
+                    Sair
+            </Link>
         </>
     );
 }
+CadastroUsuario.noHeader = true;

@@ -257,7 +257,14 @@
   font-weight: 500;
   animation: fadeIn 0.5s ease-in-out;
 }
-
+.loginPageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* Centraliza horizontalmente */
+  justify-content: center;  /* Centraliza verticalmente */
+  padding: 2rem;
+  box-sizing: border-box;
+}
 /* Animação para a mensagem de erro */
 @keyframes fadeIn {
   from {
@@ -352,6 +359,10 @@
     background-color: #4a1e1e;
     color: #ff6b6b;
     border-color: #6b2c32;
+  }
+  .loginPageWrapper .container {
+     background-color: #222; /* Um cinza mais escuro */
+     border: 1px solid #444; /* Borda sutil */
   }
 }
 

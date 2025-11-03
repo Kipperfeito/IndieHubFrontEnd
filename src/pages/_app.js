@@ -1,24 +1,25 @@
 import "@/styles/globals.css";
 import HeaderLog from '@/components/HeaderLog';
 import Header from '@/components/Header';
-import { AuthProvider, userAuth } from '@/context/AuthContext';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
 
 function AppContent({ Component, pageProps }) {
   const { user, loading } = useAuth();
   
   if (loading) {
-    return null; // Ou um spinner/tela de loading global
+    return null;
   }
+  const mostrarHeader = !Component.noHeader;
   return (
     <>
-      {user ? <HeaderLog /> : <Header />}
-      <AuthProvider>
+      {mostrarHeader && (
+        user ? <HeaderLog /> : <Header />
+      )}
         <Component {...pageProps} />
-      </AuthProvider>
     </>
   );
 }
-export default function AppContent({ Component, pageProps }) {
+export default function App({ Component, pageProps }) {
   return (
     <AuthProvider>
       {/* O AppContent (que tem a lógica do Header) é renderizado aqui,
