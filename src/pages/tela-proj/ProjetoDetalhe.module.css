@@ -13,11 +13,20 @@
     border-radius: var(--border-radius-md); /* Usa o raio da borda */
 }
 
+.titleHeader {
+    display: flex;
+    justify-content: space-between; /* Empurra o título e o botão para lados opostos */
+    align-items: center; 
+    gap: 1.5rem; 
+    flex-wrap: wrap; 
+    margin-bottom: 0.5rem; 
+}
+
 .titulo {
     font-size: 2.5rem;
     margin-top: 0;
-    margin-bottom: 0.5rem;
-    color: var(--color-text-primary); /* Usa a cor de texto primária */
+    margin-bottom: 0;
+    color: var(--color-text-primary);
 }
 
 .owner {
@@ -26,7 +35,28 @@
     margin-bottom: 2rem;
     display: block;
 }
+.editButton {
+    display: inline-block;
+    padding: 0.6rem 1.2rem; 
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    white-space: nowrap; 
+    /*.btn-secondary */
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
 
+.editButton:hover {
+    border-color: var(--color-primary);
+    background-color: rgba(83, 170, 224, 0.1);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+}
 /* 3. Descrição e Títulos de Seção */
 .descricao h2,
 .links h2,
@@ -189,6 +219,32 @@
 }
 
 .thumbnailGallery {
+  scrollbar-color: var(--color-text-secondary) var(--color-background);
+  scrollbar-width: thin; 
+}
+
+.thumbnailGallery::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* A "trilha" (o fundo da barra) */
+.thumbnailGallery::-webkit-scrollbar-track {
+  background: var(--color-background); /* Fundo da página, para misturar */
+  border-radius: var(--border-radius-sm);
+}
+
+/* O "polegar" (a parte que você arrasta) */
+.thumbnailGallery::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-secondary); /* Cor sutil (cinza-claro) */
+  border-radius: var(--border-radius-sm);
+  border: 2px solid var(--color-background); 
+}
+
+/* O "polegar" ao passar o mouse */
+.thumbnailGallery::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary); /* Cor de destaque ao passar o mouse */
+}
+.thumbnailGallery {
     display: flex;
     flex-wrap: wrap; /* Quebra para próxima linha em telas menores */
     justify-content: center; /* Centraliza as miniaturas */
@@ -340,15 +396,18 @@
         gap: 1.5rem;
     }
     .mainMediaViewer {
-        width: 70%; /* Ocupa 70% da largura na versão desktop */
+        width: calc(70% - 0.75rem); /* Ocupa 70% da largura na versão desktop */
         padding-bottom: 39.375%; /* (70 * 9 / 16) */
         margin-bottom: 0;
     }
     .thumbnailGallery {
-        width: 30%; /* Ocupa 30% da largura na versão desktop */
-        flex-direction: column; /* Miniaturas em coluna */
+        width: calc(30% - 0.75rem); 
+        flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
+        max-height: calc((200px * 2) + 0.5rem); 
+        overflow-y: scroll; /* Habilita a rolagem vertical */
+        padding-right: 6px;
     }
     .thumbnailWrapper {
         width: 100%; /* Miniaturas preenchem a largura disponível */

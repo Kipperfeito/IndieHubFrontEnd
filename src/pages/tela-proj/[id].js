@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import api from '@/services/api';
+import Link from 'next/link';
 import VagaCard from '@/components/VagaCard'; // Nosso novo componente
 import styles from './ProjetoDetalhe.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 const ChevronLeftIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -61,6 +63,7 @@ export default function ProjetoDetalhe() {
     const [currentMediaIndex, setCurrentMediaIndex] = useState(0); // Índice da mídia visível (destaque ou lightbox)
     const [isLightboxOpen, setIsLightboxOpen] = useState(false); // Estado do lightbox
 
+    const { user, loading: authLoading } = useAuth();
     useEffect(() => {
 
         if (id) {
@@ -85,7 +88,7 @@ export default function ProjetoDetalhe() {
     }, [id]); 
 
 
-    if (loading) {
+    if (loading || authLoading) {
         return <p>Carregando...</p>; // Pode ser um componente de Loading
     }
 
@@ -108,6 +111,8 @@ export default function ProjetoDetalhe() {
     const mediaItems = projeto.projmedia || [];
     const hasMedia = mediaItems.length > 0;
     const currentMedia = hasMedia ? mediaItems[currentMediaIndex] : null;
+    //Verifica o usu logado
+    const isOwner = user && user.id === projeto.owner?.id;
 
     const navigateMedia = (direction) => {
         let newIndex = currentMediaIndex + direction;
@@ -236,8 +241,14 @@ export default function ProjetoDetalhe() {
                     </section>
 
                 <main className={styles.mainContent}>
-                    {/* 2. TÍTULO */}
-                    <h1 className={styles.titulo}>{projeto.projtitulo}</h1>
+                    <div className={styles.titleHeader}>
+                        <h1 className={styles.titulo}>{projeto.projtitulo}</h1>
+                        {isOwner && (
+                            <Link href={`editar-proj/${projeto.id}`} className={styles.editButton}>
+                                Editar Projeto
+                            </Link>
+                        )}
+                    </div>
                     <span className={styles.owner}>
                         Criado por: {projeto.owner ? projeto.owner.usunome : 'Desconhecido'}
                     </span>
