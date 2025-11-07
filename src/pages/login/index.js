@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/services/api';
 import styles from "@/styles/Form.module.css";
+import Link from 'next/link';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 export default function Login() {
     const [usuemail, setEmail] = useState('');
     const [ususenha, setSenha] = useState('');
+    const [mostrarSenha, setMostrarSenha] = useState(false);
     const [erro, setErro] = useState('');
     
     // Pega a função 'login' do contexto
@@ -24,11 +27,7 @@ export default function Login() {
             .then(res => {
                 const token = res.data.accessToken;
                 const userData = res.data.usuario; 
-
-                // 3. Passa AMBOS para a função de login do contexto
                 login(token, userData); 
-                
-                // --- FIM DA MUDANÇA ---
             })
             .catch(err => {
                 console.error(err);
@@ -54,14 +53,21 @@ export default function Login() {
                     />
                     <br />
                     <label htmlFor="ususenha">Senha: </label>
-                    <input 
-                        type="password" 
-                        id="ususenha" 
-                        value={ususenha}
-                        onChange={(e) => setSenha(e.target.value)}
-                    />
-                    <br />
+                    <div className={styles.inputWithIcon}>
+                        <input type={mostrarSenha ? "text" : "password"} id="ususenha" name="ususenha" value={ususenha} onChange={(e) => setSenha(e.target.value)} /> 
+                            <button 
+                                type="button" 
+                                onClick={() => setMostrarSenha(!mostrarSenha)} 
+                                className={styles.iconButton}
+                                aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                            >
+                                {mostrarSenha ? <FiEye /> : <FiEyeOff />}
+                            </button>
+                    </div>
                     <button type="submit">Entrar</button>
+                    <Link href="/esqueci-senha" className={styles.forgotPasswordLink}>
+                        Esqueci minha senha
+                    </Link>
                 </form>
             </div>
         </div>

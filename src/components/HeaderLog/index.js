@@ -77,14 +77,13 @@
                 </button>
                 {menuAberto === 'projeto' && (
                   <ul className={style.dropdown_menu}>
-                      <li><a href="/tela-proj">Editar Projeto</a></li>
-                      <li><a href="/cadastro-proj">Criar Projeto</a></li>
+                      <li><Link href="/meus-projetos">Meus Projetos</Link></li>
+                      <li><Link href="/cadastro-proj">Criar Projeto</Link></li>
                   </ul>
                 )}
             </li>
           <li className={style.menuItem}><a href="/tags">Vagas</a></li>
             <li 
-                // A mágica acontece aqui:
                 className={`
                   ${style.notification_icon} 
                   ${hasNotifications ? style['has-notifications'] : ''}
@@ -98,7 +97,6 @@
             </li>
 
             {/* --- PARA TESTAR --- */}
-            {/* Botão de simulação (pode remover depois) */}
             <button 
                 onClick={checkForNotifications} 
                 style={{ marginLeft: '20px' }}

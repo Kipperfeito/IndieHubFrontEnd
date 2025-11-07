@@ -10,7 +10,6 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
-    // Efeito para carregar o usuário ao iniciar a app
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
         
@@ -22,13 +21,9 @@ export function AuthProvider({ children }) {
 
                 // Define o token no cabeçalho do 'api'
                 api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                
-                // --- MUDANÇA AQUI ---
-                // Agora, usamos o ID para buscar os dados frescos do usuário
-                // (Isso usa sua rota 'exports.findOne'!)
+
                 api.get(`/usuarios/${userId}`)
                     .then(res => {
-                        // Salva os dados do usuário no estado
                         setUser({ id: res.data.id, usunome: res.data.usunome });
                     })
                     .catch(err => {
@@ -41,7 +36,6 @@ export function AuthProvider({ children }) {
                     .finally(() => {
                         setLoading(false);
                     });
-                // --- FIM DA MUDANÇA ---
 
             } catch (e) {
                 console.error("Token inválido.", e);
@@ -49,38 +43,29 @@ export function AuthProvider({ children }) {
                 setLoading(false);
             }
         } else {
-            // Nenhum token encontrado
             setLoading(false);
         }
-    }, []); // Executa apenas uma vez na inicialização
+    }, []);
 
-    // Função de Login - AGORA ACEITA 'userData'
     const login = (token, userData) => {
         try {
             // Salva o token no localStorage
             localStorage.setItem('accessToken', token);
-            
-            // --- MUDANÇA AQUI ---
-            // Não precisamos decodificar, já temos os dados!
-            setUser({ id: userData.id, usunome: userData.usunome });
-            // --- FIM DA MUDANÇA ---
 
-            // Define o token no cabeçalho do 'api'
+            setUser({ id: userData.id, usunome: userData.usunome });
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             
-            // Redireciona para a página inicial
             router.push("/inicial"); // ou para onde você quiser
         } catch (e) {
             console.error("Erro ao fazer login:", e);
         }
     };
 
-    // Função de Logout (continua igual)
     const logout = () => {
         setUser(null);
         localStorage.removeItem('accessToken');
         delete api.defaults.headers.common['Authorization'];
-        router.push('/login');
+        router.push('/');
     };
 
     return (
@@ -89,8 +74,6 @@ export function AuthProvider({ children }) {
         </AuthContext.Provider>
     );
 }
-
-// Hook customizado (continua igual)
 export const useAuth = () => {
     return useContext(AuthContext);
 };

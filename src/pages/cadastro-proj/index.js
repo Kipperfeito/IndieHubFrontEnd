@@ -191,6 +191,7 @@ export default function CadastroProjeto() {
                                 name="projdesc" 
                                 rows="5"
                                 maxLength="500"
+                                className={styles.textarea}
                                 value={projeto.projdesc} 
                                 onChange={handleChange} 
                             />
