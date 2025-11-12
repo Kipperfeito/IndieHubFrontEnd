@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import api from '@/services/api';
 import Link from 'next/link';
 import VagaCard from '@/components/VagaCard'; // Nosso novo componente
-import styles from './ProjetoDetalhe.module.css';
+import styles from '@/styles/ProjetoDetalhe.module.css';
 import { useAuth } from '@/context/AuthContext';
 
 const ChevronLeftIcon = () => (
@@ -26,28 +26,25 @@ const CloseIcon = () => (
 function getYoutubeEmbedUrl(url) {
     try {
         const urlObj = new URL(url);
-        // Para links 'watch?v='
         if (urlObj.hostname === 'www.youtube.com' || urlObj.hostname === 'youtube.com') {
             const videoId = urlObj.searchParams.get('v');
             if (videoId) {
                 return `https://www.youtube.com/embed/${videoId}`;
             }
         }
-        // Para links 'youtu.be/'
         if (urlObj.hostname === 'youtu.be') {
-            const videoId = urlObj.pathname.substring(1); // Remove a barra inicial
+            const videoId = urlObj.pathname.substring(1);
             if (videoId) {
                 return `https://www.youtube.com/embed/${videoId}`;
             }
         }
-        // Se for um link de embed, retorna ele mesmo
         if (urlObj.pathname.includes('/embed/')) {
             return url;
         }
 
     } catch (e) {
         console.error("URL de vídeo inválida:", url);
-        return null; // Retorna nulo se a URL for inválida
+        return null;
     }
     return null; 
 }
@@ -60,8 +57,8 @@ export default function ProjetoDetalhe() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const [currentMediaIndex, setCurrentMediaIndex] = useState(0); // Índice da mídia visível (destaque ou lightbox)
-    const [isLightboxOpen, setIsLightboxOpen] = useState(false); // Estado do lightbox
+    const [currentMediaIndex, setCurrentMediaIndex] = useState(0); 
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false); 
 
     const { user, loading: authLoading } = useAuth();
     useEffect(() => {
@@ -89,7 +86,7 @@ export default function ProjetoDetalhe() {
 
 
     if (loading || authLoading) {
-        return <p>Carregando...</p>; // Pode ser um componente de Loading
+        return <p>Carregando...</p>;
     }
 
     if (error) {
@@ -97,10 +94,9 @@ export default function ProjetoDetalhe() {
     }
 
     if (!projeto) {
-        return <p>Projeto não encontrado.</p>; // Caso de segurança
+        return <p>Projeto não encontrado.</p>; 
     }
 
-    // Filtra apenas as vagas abertas para exibição
     const vagasAbertas = projeto.vagas
         ? projeto.vagas.filter(vaga => vaga.vagastatus === 'Aberta')
         : [];
@@ -111,15 +107,15 @@ export default function ProjetoDetalhe() {
     const mediaItems = projeto.projmedia || [];
     const hasMedia = mediaItems.length > 0;
     const currentMedia = hasMedia ? mediaItems[currentMediaIndex] : null;
-    //Verifica o usu logado
+
     const isOwner = user && user.id === projeto.owner?.id;
 
     const navigateMedia = (direction) => {
         let newIndex = currentMediaIndex + direction;
         if (newIndex < 0) {
-            newIndex = mediaItems.length - 1; // Volta para o final
+            newIndex = mediaItems.length - 1;
         } else if (newIndex >= mediaItems.length) {
-            newIndex = 0; // Vai para o começo
+            newIndex = 0;
         }
         setCurrentMediaIndex(newIndex);
     };
@@ -135,8 +131,6 @@ export default function ProjetoDetalhe() {
         setCurrentMediaIndex(0); // Volta para a primeira mídia ao fechar
     };
 
-
-    // --- FUNÇÃO AUXILIAR PARA RENDERIZAR UM ITEM DE MÍDIA ---
     const renderMediaItem = (item, isMainView = false) => {
         if (!item) return null;
 
@@ -146,7 +140,7 @@ export default function ProjetoDetalhe() {
                     src={item.url} 
                     alt={`Mídia do projeto`} 
                     className={isMainView ? styles.mainMediaImage : styles.thumbnailImage}
-                    onClick={() => isMainView && openLightbox(currentMediaIndex)} // Abre lightbox ao clicar na imagem principal
+                    onClick={() => isMainView && openLightbox(currentMediaIndex)} 
                 />
             );
         }
@@ -154,9 +148,7 @@ export default function ProjetoDetalhe() {
         if (item.tipo === 'video') {
             const embedUrl = getYoutubeEmbedUrl(item.url);
             if (!embedUrl) return null;
-
-            // Para vídeos, o thumbnail pode ser uma imagem de placeholder ou o iframe
-            if (isMainView || isLightboxOpen) { // Renderiza iframe apenas na vista principal ou lightbox
+            if (isMainView || isLightboxOpen) { 
                 return (
                     <iframe
                         width="100%"
@@ -196,7 +188,6 @@ export default function ProjetoDetalhe() {
                                 <img src="https://via.placeholder.com/800x450?text=Projeto+Sem+Mídia" alt="Mídia do Projeto" className={styles.mainMediaImage} />
                             ) : (
                                 <>
-                                    {/* Botões de navegação para a mídia principal */}
                                     {hasMedia && mediaItems.length > 1 && (
                                         <>
                                             <button 
@@ -227,13 +218,12 @@ export default function ProjetoDetalhe() {
                                         className={`${styles.thumbnailWrapper} ${index === currentMediaIndex ? styles.activeThumbnail : ''}`}
                                         onClick={() => setCurrentMediaIndex(index)}
                                     >
-                                        {renderMediaItem(item, false)} {/* Renderiza item como thumbnail */}
+                                        {renderMediaItem(item, false)}
                                     </div>
                                 ))}
                             </div>
                         )}
                     </section>
-
                 <main className={styles.mainContent}>
                     <div className={styles.titleHeader}>
                         <h1 className={styles.titulo}>{projeto.projtitulo}</h1>
