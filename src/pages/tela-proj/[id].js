@@ -169,8 +169,6 @@ export default function ProjetoDetalhe() {
                     </iframe>
                 );
             } else {
-                // Para miniaturas de vídeo, você pode tentar pegar a thumb do YouTube
-                // Ou usar uma imagem genérica de placeholder
                 const videoId = item.url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1];
                 const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "https://via.placeholder.com/200x112?text=Video";
                 return (
@@ -192,8 +190,6 @@ export default function ProjetoDetalhe() {
     return (
         <>
             <div className={styles.container}>
-
-                {/* 1. MÍDIA (Imagens e Vídeos) */}
                 <section className={styles.mediaSection}>
                         <div className={styles.mainMediaViewer}>
                             {!hasMedia ? (
@@ -223,8 +219,6 @@ export default function ProjetoDetalhe() {
                                 </>
                             )}
                         </div>
-
-                        {/* Galeria de miniaturas */}
                         {hasMedia && (
                             <div className={styles.thumbnailGallery}>
                                 {mediaItems.map((item, index) => (
@@ -244,22 +238,35 @@ export default function ProjetoDetalhe() {
                     <div className={styles.titleHeader}>
                         <h1 className={styles.titulo}>{projeto.projtitulo}</h1>
                         {isOwner && (
-                            <Link href={`editar-proj/${projeto.id}`} className={styles.editButton}>
+                            <Link href={`/editar-proj/${projeto.id}`} className={styles.editButton}>
                                 Editar Projeto
                             </Link>
                         )}
                     </div>
-                    <span className={styles.owner}>
-                        Criado por: {projeto.owner ? projeto.owner.usunome : 'Desconhecido'}
-                    </span>
-
-                    {/* 3. DESCRIÇÃO */}
+                    <div className={styles.metaInfo}>
+                        <Link href={`/perfil/${projeto.ownerId}`} className={styles.owner}>
+                            Criado por: {projeto.owner ? projeto.owner.usunome : 'Desconhecido'}
+                        </Link>
+                        
+                        {projeto.colaboradores && projeto.colaboradores.length > 0 && (
+                            <div className={styles.collaboratorList}>
+                                <span>Colaboradores:</span>
+                                {projeto.colaboradores.map((colaborador, index) => (
+                                    <span key={colaborador.id}>
+                                        <Link href={`/perfil/${colaborador.id}`} className={styles.collaboratorLink}>
+                                            {colaborador.usunome}
+                                        </Link>
+                                        {index < projeto.colaboradores.length - 1 ? ', ' : ''}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                     <section className={styles.descricao}>
                         <h2>Descrição</h2>
                         <p>{projeto.projdesc}</p>
                     </section>
 
-                    {/* 4. LINKS */}
                     <section className={styles.links}>
                         <h2>Links</h2>
                         
@@ -267,7 +274,7 @@ export default function ProjetoDetalhe() {
                             linksValidos.map(([plataforma, url]) => (
                                 <a 
                                     key={plataforma} 
-                                    href={url} // URL dinâmica
+                                    href={url}
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                 >
@@ -276,12 +283,10 @@ export default function ProjetoDetalhe() {
                                 </a>
                             ))
                         ) : (
-                            // Mensagem para quando não há links
                             <p>Nenhum link foi adicionado a este projeto.</p>
                         )}
                     </section>
 
-                    {/* 5. VAGAS */}
                     <section className={styles.vagasSection}>
                         <h2>Vagas Abertas ({vagasAbertas.length})</h2>
                         <div className={styles.vagasGrid}>
@@ -295,7 +300,6 @@ export default function ProjetoDetalhe() {
                         </div>
                     </section>
 
-                    {/* 6. COMENTÁRIOS / FEEDBACK */}
                     <section className={styles.commentsSection}>
                         <h2>Comentários e Feedback</h2>
                         <textarea
@@ -308,7 +312,7 @@ export default function ProjetoDetalhe() {
             </div>
             {isLightboxOpen && (
                 <div className={styles.lightboxOverlay} onClick={closeLightbox}>
-                    <div className={styles.lightboxContent} onClick={e => e.stopPropagation()}> {/* Impede fechar ao clicar na mídia */}
+                    <div className={styles.lightboxContent} onClick={e => e.stopPropagation()}> 
                         <button className={styles.lightboxCloseButton} onClick={closeLightbox}>
                             <CloseIcon />
                         </button>
