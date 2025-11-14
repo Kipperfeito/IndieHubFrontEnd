@@ -90,8 +90,6 @@ export default function ProjetoDetalhe() {
             alert("Preencha a Tag e a Descrição da vaga.");
             return;
         }
-        // Apenas adiciona ao estado local. O 'id' será falso (ex: 'temp_123')
-        // O backend saberá que é novo porque não tem um 'id' numérico
         const vagaComIdTemp = { ...novaVaga, id: `temp_${Math.random()}` };
         setVagas([...vagas, vagaComIdTemp]); 
         setNovaVaga({ vagatitulo: '', vagadesc: '', vagarequisitos: '' });
@@ -123,18 +121,17 @@ export default function ProjetoDetalhe() {
         
         // Prepara o payload completo
         const payload = {
-            // Dados principais
             projtitulo, projdesc, projlinks, projestagioatual, projmodelonegocio, projplataforma,
-            // Arrays
             projmedia: mediaLista,
             colaboradores: colaboradorIds,
             vagas: vagas
         };
 
+        console.log("Enviando payload:", payload);
         api.put(`/projetos/${id}`, payload)
             .then(() => {
                 // SUCESSO: Redireciona de volta para a página de visualização
-                router.push(`/projeto/${id}`); 
+                router.push(`/tela-proj/${id}`); 
             })
             .catch(err => {
                 console.error("Erro ao salvar:", err);
@@ -249,7 +246,6 @@ export default function ProjetoDetalhe() {
 
                 <hr className={editStyles.divider} />
 
-                {/* --- NOVA SEÇÃO: GERENCIAR COLABORADORES --- */}
                 <section className={editStyles.colaboradoresSection}>
                     <h2>Gerenciar Colaboradores</h2>
                     <div className={editStyles.checkboxList}>
@@ -272,18 +268,42 @@ export default function ProjetoDetalhe() {
 
                 <hr className={editStyles.divider} />
                 
-                {/* --- SEÇÃO DE VAGAS (JÁ EXISTENTE) --- */}
                 <section className={editStyles.vagasSection}>
                     <h2>Gerenciar Vagas</h2>
                     <div className={editStyles.addVagaBox}>
                         <h4>Adicionar Nova Vaga</h4>
-                        {/* ... (o JSX da sua addVagaBox) ... */}
+                        
                         <label>Tag / Função:</label>
-                        <select name="vagatitulo" value={novaVaga.vagatitulo} onChange={handleNovaVagaChange} className={editStyles.select}>
+                        <select 
+                            name="vagatitulo" 
+                            value={novaVaga.vagatitulo} 
+                            onChange={handleNovaVagaChange} 
+                            className={editStyles.select}
+                        >
                             <option value="">Selecione...</option>
                             {tagsDisponiveis.map(tag => <option key={tag} value={tag}>{tag}</option>)}
                         </select>
-                        {/* ... (outros inputs de vaga) ... */}
+
+                        <label>Descrição Curta:</label>
+                        <input 
+                            type="text" 
+                            name="vagadesc" 
+                            value={novaVaga.vagadesc} 
+                            onChange={handleNovaVagaChange} 
+                            className={editStyles.input} 
+                            placeholder="Ex: Programar IA dos inimigos"
+                        />
+
+                        <label>Requisitos:</label>
+                        <input 
+                            type="text" 
+                            name="vagarequisitos" 
+                            value={novaVaga.vagarequisitos} 
+                            onChange={handleNovaVagaChange} 
+                            className={editStyles.input} 
+                            placeholder="Ex: Exp. com Unity e C#"
+                        />
+
                         <button type="button" onClick={handleAddVaga} className={editStyles.btnSecondary} style={{marginTop: '1rem'}}>
                             + Adicionar Vaga
                         </button>
