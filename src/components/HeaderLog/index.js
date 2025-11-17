@@ -58,7 +58,10 @@
               {/* A condição agora verifica se o estado é igual ao ID 'perfil' */}
                 {menuAberto === 'perfil' && (
                     <ul className={style.dropdown_menu}>
-                        <li><a href="/perfil">Editar Perfil</a></li>
+                        <li>
+                            <Link href={`/perfil/${user.id}`}>
+                                Ver Perfil
+                            </Link></li>
                         <li><button
                             onClick={logout}
                             className={style.dropdownButtonAsLink}>

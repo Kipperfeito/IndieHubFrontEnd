@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/router';
 import Link from "next/link";
 import styles from "./meus.module.css";
 import api from "@/services/api";
 import { useAuth } from "@/context/AuthContext";
 
 export default function MeusProjetos() {
+    const router = useRouter();
     const [projetos, setProjetos] = useState([]);
     const { user } = useAuth();
     const [confirmDeleteId, setConfirmDeleteId] = useState(null);
@@ -46,24 +48,24 @@ export default function MeusProjetos() {
         }
     }, [user]);
 
-    const handleDeleteClick = (e, projectId) => {
+    const handleDeleteClick = (e, projetoId) => {
         e.preventDefault(); // Impede o <Link> de navegar
         e.stopPropagation(); // Impede qualquer outro evento de clique
-        setConfirmDeleteId(projectId);
+        setConfirmDeleteId(projetoId);
     };
     const handleCancelDelete = (e) => {
         e.preventDefault();
         e.stopPropagation();
         setConfirmDeleteId(null);
     };
-    const handleConfirmDelete = (e, projectId) => {
+    const handleConfirmDelete = (e, projetoId) => {
         e.preventDefault();
         e.stopPropagation();
 
-        api.delete(`/projetos/${projectId}`)
+        api.delete(`/projetos/${projetoId}`)
             .then(() => {
                 setProjetos(prevProjetos =>
-                    prevProjetos.filter(p => p.id !== projectId)
+                    prevProjetos.filter(p => p.id !== projetoId)
                 );
                 setConfirmDeleteId(null);
             })
@@ -84,20 +86,20 @@ export default function MeusProjetos() {
         e.stopPropagation();
         setConfirmDeleteAll(false);
     };
-    const handleConfirmDeleteAll = (e, projectId) => {
+    const handleConfirmDeleteAll = (e, projetoId) => {
         e.preventDefault();
         e.stopPropagation();
 
         api.delete(`/projetos/`)
             .then(() => {
                 setProjetos(prevProjetos =>
-                    prevProjetos.filter(p => p.id !== projectId)
+                    prevProjetos.filter(p => p.id !== projetoId)
                 );
                 setConfirmDeleteAll(false);
             })
             .catch(err => {
-                console.error("Erro ao excluir projeto:", err);
-                alert("Erro ao excluir projeto:", err)
+                console.error("Erro ao excluir projetos:", err);
+                alert("Erro ao excluir projetos:", err)
                 setConfirmDeleteAll(false);
             });
     };

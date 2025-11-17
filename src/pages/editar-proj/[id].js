@@ -119,7 +119,6 @@ export default function ProjetoDetalhe() {
         setIsSaving(true);
         const { projtitulo, projdesc, projlinks, projestagioatual, projmodelonegocio, projplataforma } = projeto;
         
-        // Prepara o payload completo
         const payload = {
             projtitulo, projdesc, projlinks, projestagioatual, projmodelonegocio, projplataforma,
             projmedia: mediaLista,
@@ -130,7 +129,6 @@ export default function ProjetoDetalhe() {
         console.log("Enviando payload:", payload);
         api.put(`/projetos/${id}`, payload)
             .then(() => {
-                // SUCESSO: Redireciona de volta para a página de visualização
                 router.push(`/tela-proj/${id}`); 
             })
             .catch(err => {
