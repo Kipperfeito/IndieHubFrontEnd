@@ -61,7 +61,13 @@
                         <li>
                             <Link href={`/perfil/${user.id}`}>
                                 Ver Perfil
-                            </Link></li>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href={`/meus-amigos/${user.id}`}>
+                                Meus Amigos
+                            </Link>
+                        </li>
                         <li><button
                             onClick={logout}
                             className={style.dropdownButtonAsLink}>

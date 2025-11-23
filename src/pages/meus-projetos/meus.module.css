@@ -41,7 +41,6 @@
     color: inherit;
     display: block;
     border-radius: var(--border-radius-md);
-    /* Usa sua variável global */
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 .emptyStateContainer {
@@ -54,10 +53,8 @@
 .cardLink:hover,
 .cardLink:focus {
     transform: translateY(-5px);
-    /* Efeito de "levantar" */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    /* Destaque da borda que definimos no globals.css */
-    border-color: var(--color-primary);
+    border-color: var(--color-primary-hover);
 }
 
 .card {

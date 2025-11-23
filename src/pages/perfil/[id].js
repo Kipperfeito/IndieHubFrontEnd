@@ -3,12 +3,13 @@ import { useRouter } from 'next/router';
 import api from '@/services/api';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-
-// Importa os dois arquivos CSS: um para o layout do perfil, outro para os cards
 import styles from './Perfil.module.css';
 import cardStyles from '@/pages/meus-projetos/meus.module.css';
 
-// Componente simples para o Avatar (com fallback)
+const AddFriendIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>;
+const PendingIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>;
+const FriendIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>;
+const AcceptIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
 const Avatar = ({ usufoto, usunome }) => {
     if (usufoto) {
         return <img src={usufoto} alt={usunome} className={styles.avatarImage} />;
@@ -23,23 +24,23 @@ const Avatar = ({ usufoto, usunome }) => {
     );
 };
 
-// Componente simples para o Card de Projeto (copiado de 'meus-projetos')
 const ProjectCard = ({ projeto }) => {
-    // Funções auxiliares simples (sem dependência de estado)
     const formatarData = (dataString) => {
         if (!dataString) return "N/A";
         const [ano, mes, dia] = dataString.split('-');
         return `${dia}/${mes}/${ano}`;
     };
 
-    const vagas = (projeto.vagas || []).filter(v => v.vagastatus === "Aberta");
+    const vagas = (projeto.vagas);
 
     return (
         <Link href={`/projeto/${projeto.id}`} className={cardStyles.cardLink}>
             <div className={cardStyles.card}>
                 <div>
                     <h3>{projeto.projtitulo}</h3>
-                    <p className={cardStyles.descricao}>{projeto.projdesc ? `${projeto.projdesc.substring(0, 100)}...` : "Sem descrição."}</p>
+                    <p className={cardStyles.descricao}>
+                        {projeto.projdesc ? `${projeto.projdesc.substring(0, 100)}...` : "Sem descrição."}
+                    </p>
                     <div className={cardStyles.metaData}>
                         <span><strong>Publicado em:</strong> {formatarData(projeto.projdatapublicacao)}</span>
                         {vagas.length > 0 && <span><strong>Vagas:</strong> {vagas.length}</span>}
@@ -60,15 +61,16 @@ export default function PerfilPublico() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    const [friendStatus, setFriendStatus] = useState('none'); 
+
     useEffect(() => {
         if (id) {
             setLoading(true);
             // Busca o usuário pelo ID da URL, incluindo suas associações
-            // (Requer que seu 'usuario.controller.js -> findOne' inclua 'projetos' e 'projetosColaborando')
             api.get(`/usuarios/${id}`)
                 .then(res => {
                     const data = res.data;
-                    // Converte dados JSON
+                    console.log("DADOS RECEBIDOS DO PERFIL:", data);
                     try { data.usutags = JSON.parse(data.usutags) || []; } catch (e) { data.usutags = []; }
                     try { data.usuproficiencia = JSON.parse(data.usuproficiencia) || {}; } catch (e) { data.usuproficiencia = {}; }
                     
@@ -81,6 +83,54 @@ export default function PerfilPublico() {
                 .finally(() => setLoading(false));
         }
     }, [id]);
+
+    useEffect(() => {
+        if (user && id && user.id !== parseInt(id)) {
+            api.get(`/amizades/status/${id}`)
+                .then(res => {
+                        console.log("Status recebido da API:", res.data.status); 
+                        setFriendStatus(res.data.status || 'none');
+                })
+                .catch(err => {
+                    console.error("Erro ao verificar amizade:", err);
+                    setFriendStatus('none');
+                });;
+        }
+    }, [user, id]);
+
+    const handleAddFriend = () => {
+        if (!user) {
+            alert("Faça login para adicionar amigos!");
+            return;
+        }
+        setFriendStatus('loading');
+        
+        api.post('/amizades/solicitar', { amigoId: perfil.id })
+            .then(() => {
+                setFriendStatus('pendente');
+                alert("Solicitação de amizade enviada!");
+            })
+            .catch(err => {
+                console.error(err);
+                setFriendStatus('none'); // Reverte em caso de erro
+                alert(err.response?.data?.message || "Erro ao adicionar amigo.");
+            });
+    };
+    const handleAcceptFriend = () => {
+        setFriendStatus('loading');
+        
+        // Chama a rota PUT que criamos no backend
+        api.put('/amizades/aceitar', { idDoAmigo: perfil.id })
+            .then(() => {
+                setFriendStatus('aceito');
+                alert("Agora vocês são amigos!");
+            })
+            .catch(err => {
+                console.error("Erro ao aceitar:", err);
+                setFriendStatus('recebido'); // Volta ao estado anterior se der erro
+                alert("Erro ao aceitar solicitação.");
+            });
+    };
 
     if (loading || authLoading) {
         return <div className={styles.container}><p>Carregando perfil...</p></div>;
@@ -97,11 +147,9 @@ export default function PerfilPublico() {
     // Verifica se o usuário logado é o dono deste perfil
     const isOwner = user && user.id === perfil.id;
 
-    // Junta os projetos que o usuário é dono E os que ele colabora
     const projetosOwned = perfil.projetos || [];
     const projetosCollab = perfil.projetosColaborando || [];
     
-    // Cria um Map para remover duplicatas (caso seja dono e colaborador)
     const projectMap = new Map();
     [...projetosOwned, ...projetosCollab].forEach(p => projectMap.set(p.id, p));
     const projetosUnicos = Array.from(projectMap.values());
@@ -109,7 +157,6 @@ export default function PerfilPublico() {
 
     return (
         <div className={styles.container}>
-            {/* Card 1: Informações do Perfil */}
             <div className={styles.profileCard}>
                 <div className={styles.profileHeader}>
                     <Avatar usufoto={perfil.usufoto} usunome={perfil.usunome} />
@@ -117,11 +164,54 @@ export default function PerfilPublico() {
                         <h1>{perfil.usunome}</h1>
                         <p>{perfil.usudisponibilidade || "Disponibilidade não informada"}</p>
                     </div>
-                    {isOwner && (
-                        <Link href={`/editar-perfil/${user.id}`} className={styles.editButton}>
-                            Editar Perfil
-                        </Link>
-                    )}
+                    <div className={styles.profileActions}>
+                        {isOwner ? (
+                            <Link href={`/editar-perfil/${user.id}`} className={styles.editButton}>
+                                Editar Perfil
+                            </Link>
+                        ) : (
+                            <>
+                                {/* CASO 1: NENHUMA RELAÇÃO (Botão Adicionar) */}
+                                {(friendStatus === 'none' || !['pendente', 'aceito', 'recebido', 'loading'].includes(friendStatus)) && (
+                                    <button className={`${styles.friendButton} ${styles.none}`} onClick={handleAddFriend}>
+                                        <AddFriendIcon /> Adicionar Amigo
+                                    </button>
+                                )}
+
+                                {/* CASO 2: EU ENVIEI (Pendente - Aguardando) */}
+                                {friendStatus === 'pendente' && (
+                                    <button className={`${styles.friendButton} ${styles.pendente}`} disabled>
+                                        <PendingIcon /> Solicitação Enviada
+                                    </button>
+                                )}
+
+                                {/* CASO 3: EU RECEBI (Botão Aceitar - Verde) */}
+                                {friendStatus === 'recebido' && (
+                                    <button 
+                                        className={`${styles.friendButton} ${styles.aceito}`} /* Reutiliza estilo verde */
+                                        onClick={handleAcceptFriend}
+                                        style={{ cursor: 'pointer' }} /* Força cursor de clique */
+                                    >
+                                        <AcceptIcon /> Aceitar Solicitação
+                                    </button>
+                                )}
+
+                                {/* CASO 4: JÁ SÃO AMIGOS */}
+                                {friendStatus === 'aceito' && (
+                                    <button className={`${styles.friendButton} ${styles.aceito}`} disabled>
+                                        <FriendIcon /> Amigos
+                                    </button>
+                                )}
+
+                                {/* CASO 5: CARREGANDO */}
+                                {friendStatus === 'loading' && (
+                                    <button className={styles.friendButton} disabled>
+                                        ...
+                                    </button>
+                                )}
+                            </>
+                        )}
+                    </div>
                 </div>
 
                 {perfil.usutags.length > 0 && (
@@ -150,7 +240,6 @@ export default function PerfilPublico() {
                 )}
             </div>
 
-            {/* Card 2: Projetos */}
             <div className={styles.profileCard}>
                 <h2 className={styles.sectionTitle}>Projetos</h2>
                 <div className={cardStyles.galleryContainer}>

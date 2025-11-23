@@ -29,7 +29,53 @@
     gap: 1.5rem;
     margin-bottom: 2rem;
 }
+.profileActions {
+    display: flex;
+    align-items: center;
+}
 
+/* Botão de Amigo Base */
+.friendButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    background-color: var(--color-surface); /* Cor de fundo padrão */
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+/* Estado: Nenhum (Pode adicionar) - Verde */
+.friendButton.none {
+    background-color: var(--color-primary);
+    color: white;
+}
+.friendButton.none:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Estado: Pendente - Amarelo/Laranja */
+.friendButton.pendente {
+    background-color: transparent;
+    color: #f1c40f;
+    border-color: #f1c40f;
+    cursor: default; /* Não clicável */
+}
+
+/* Estado: Aceito (Amigos) - Azul/Verde Suave */
+.friendButton.aceito {
+    background-color: transparent;
+    color: #2ecc71;
+    border-color: #2ecc71;
+    cursor: default;
+}
 .avatarImage {
     width: 120px;
     height: 120px;
@@ -322,6 +368,10 @@
     text-align: center;
     font-weight: 500;
     margin-bottom: 1.5rem;
+    margin: 1.5rem auto; 
+    width: auto; 
+    max-width: 90%; 
+    display: block;
 }
 .successMessage {
     background-color: rgba(40, 167, 69, 0.1);
@@ -332,6 +382,10 @@
     text-align: center;
     font-weight: 500;
     margin-bottom: 1.5rem;
+    margin: 1.5rem auto; 
+    width: auto; 
+    max-width: 90%; 
+    display: block;
 }
 
 /* --- RESPONSIVIDADE --- */
@@ -353,7 +407,6 @@
         margin-bottom: 1.5rem; 
     }
 
-    /* Responsividade da Página de Visualização */
     .profileHeader {
         flex-direction: column;
         text-align: center;
@@ -370,5 +423,14 @@
     }
     .profileSection h2, .sectionTitle {
         text-align: center;
+    }
+    .profileActions {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
+    .friendButton, .editButton {
+        width: 100%;
+        justify-content: center;
     }
 }
