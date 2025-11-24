@@ -77,9 +77,9 @@ export default function MeusAmigos() {
             <h1 className={styles.title}>Social</h1>
 
             {/* SEÇÃO DE SOLICITAÇÕES */}
-            {pendentes.length > 0 && (
+            <h2>Solicitações Pendentes <span className={styles.badge}>{pendentes.length}</span></h2>
+            {pendentes.length > 0 ? (
                 <section className={styles.section}>
-                    <h2>Solicitações Pendentes <span className={styles.badge}>{pendentes.length}</span></h2>
                     <div className={styles.grid}>
                         {pendentes.map(req => (
                             <div key={req.id} className={styles.cardPendente}>
@@ -105,7 +105,7 @@ export default function MeusAmigos() {
                         ))}
                     </div>
                 </section>
-            )}
+            ) : (<p className={styles.empty}>Você não tem nenhuma solicitação.</p>)}
 
             {/* SEÇÃO DE AMIGOS */}
             <section className={styles.section}>

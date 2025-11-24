@@ -21,15 +21,24 @@
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .badge {
     background-color: var(--color-primary);
     color: white;
-    font-size: 0.9rem;
-    padding: 0.2rem 0.6rem;
-    border-radius: 99px;
+    font-size: 1rem;
+    font-weight: bold;
+    height: 28px;      /* Altura fixa */
+    min-width: 24px;   /* Largura mínima (para números de 1 dígito serem redondos) */
+    padding: 0 6px;    /* Espaço lateral para números maiores (10, 100) */
+    border-radius: 12px; /* Metade da altura para ficar redondo */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; 
+    margin: 0;
+    line-height: 0; 
+    transform: translateY(-4.7px);
 }
 
 .grid {
@@ -68,10 +77,13 @@
     flex-grow: 1;
 }
 
-/* --- ESTILOS DO AVATAR (NOVOS) --- */
+.avatar {
+    max-width: 7rem;
+}
 .avatarImage {
     width: 100%;
     height: 100%;
+    max-width: 7rem;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--color-border);
