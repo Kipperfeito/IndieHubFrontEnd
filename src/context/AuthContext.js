@@ -27,9 +27,7 @@ export function AuthProvider({ children }) {
                         setUser({ id: res.data.id, usunome: res.data.usunome });
                     })
                     .catch(err => {
-                        // Se o token for válido mas o usuário não existir (ex: deletado)
                         console.error("Erro ao buscar usuário com token:", err);
-                        // Limpa o token inválido
                         localStorage.removeItem('accessToken');
                         delete api.defaults.headers.common['Authorization'];
                     })
@@ -55,7 +53,7 @@ export function AuthProvider({ children }) {
             setUser({ id: userData.id, usunome: userData.usunome });
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             
-            router.push("/inicial"); // ou para onde você quiser
+            router.push("/inicial");
         } catch (e) {
             console.error("Erro ao fazer login:", e);
         }

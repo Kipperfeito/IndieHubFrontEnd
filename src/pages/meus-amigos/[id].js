@@ -12,7 +12,6 @@ const Avatar = ({ usufoto, usunome }) => {
     if (usufoto) {
         return <img src={usufoto} alt={usunome} className={styles.avatarImage} />;
     }
-    // Fallback visual (ícone de pessoa)
     return (
         <div className={styles.avatarFallback}>
             <svg width="60%" height="60%" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +75,6 @@ export default function MeusAmigos() {
         <div className={styles.container}>
             <h1 className={styles.title}>Social</h1>
 
-            {/* SEÇÃO DE SOLICITAÇÕES */}
             <h2>Solicitações Pendentes <span className={styles.badge}>{pendentes.length}</span></h2>
             {pendentes.length > 0 ? (
                 <section className={styles.section}>
@@ -84,7 +82,6 @@ export default function MeusAmigos() {
                         {pendentes.map(req => (
                             <div key={req.id} className={styles.cardPendente}>
                                 <div className={styles.userInfo}>
-                                    {/* CORREÇÃO AQUI: Usamos 'req.solicitante' que vem do backend agora */}
                                     {req.solicitante && (
                                         <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
                                             <Avatar usufoto={req.solicitante.usufoto} usunome={req.solicitante.usunome} />
@@ -117,7 +114,7 @@ export default function MeusAmigos() {
                         {amigos.map(amigo => (
                             <div key={amigo.id} className={styles.friendCard}>
                                 <Link href={`/perfil/${amigo.id}`} className={styles.friendLink}>
-                                    <img src={amigo.usufoto || '/default-avatar.png'} className={styles.avatar} />
+                                    <Avatar usufoto={amigo.usufoto} usunome={amigo.usunome}/>
                                     <div>
                                         <strong>{amigo.usunome}</strong>
                                         <span className={styles.status}>{amigo.usudisponibilidade || "Disponível"}</span>

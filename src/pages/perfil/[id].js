@@ -10,6 +10,9 @@ const AddFriendIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" h
 const PendingIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>;
 const FriendIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>;
 const AcceptIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
+const CancelIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
+const ChatIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>;
+
 const Avatar = ({ usufoto, usunome }) => {
     if (usufoto) {
         return <img src={usufoto} alt={usunome} className={styles.avatarImage} />;
@@ -116,10 +119,24 @@ export default function PerfilPublico() {
                 alert(err.response?.data?.message || "Erro ao adicionar amigo.");
             });
     };
+    const handleCancelRequest = () => {
+        if (!confirm("Deseja cancelar a solicitação de amizade?")) return;
+        setFriendStatus('loading');
+
+        api.delete(`/amizades/${perfil.id}`)
+            .then(() => {
+                setFriendStatus('none'); 
+            })
+            .catch(err => {
+                console.error(err);
+                setFriendStatus('pendente'); 
+                alert("Erro ao cancelar.");
+            });
+    };
+    
     const handleAcceptFriend = () => {
         setFriendStatus('loading');
-        
-        // Chama a rota PUT que criamos no backend
+
         api.put('/amizades/aceitar', { idDoAmigo: perfil.id })
             .then(() => {
                 setFriendStatus('aceito');
@@ -127,9 +144,13 @@ export default function PerfilPublico() {
             })
             .catch(err => {
                 console.error("Erro ao aceitar:", err);
-                setFriendStatus('recebido'); // Volta ao estado anterior se der erro
+                setFriendStatus('recebido');
                 alert("Erro ao aceitar solicitação.");
             });
+    };
+
+    const handleOpenChat = () => {
+        router.push(`/chat?amigoId=${perfil.id}`);
     };
 
     if (loading || authLoading) {
@@ -171,39 +192,39 @@ export default function PerfilPublico() {
                             </Link>
                         ) : (
                             <>
-                                {/* CASO 1: NENHUMA RELAÇÃO (Botão Adicionar) */}
                                 {(friendStatus === 'none' || !['pendente', 'aceito', 'recebido', 'loading'].includes(friendStatus)) && (
                                     <button className={`${styles.friendButton} ${styles.none}`} onClick={handleAddFriend}>
                                         <AddFriendIcon /> Adicionar Amigo
                                     </button>
                                 )}
-
-                                {/* CASO 2: EU ENVIEI (Pendente - Aguardando) */}
                                 {friendStatus === 'pendente' && (
-                                    <button className={`${styles.friendButton} ${styles.pendente}`} disabled>
-                                        <PendingIcon /> Solicitação Enviada
+                                    <button 
+                                        className={`${styles.friendButton} ${styles.pendente}`} 
+                                        onClick={handleCancelRequest}
+                                        title="Clique para cancelar a solicitação"
+                                    >
+                                        <CancelIcon /> Cancelar Solicitação
                                     </button>
                                 )}
-
-                                {/* CASO 3: EU RECEBI (Botão Aceitar - Verde) */}
                                 {friendStatus === 'recebido' && (
                                     <button 
-                                        className={`${styles.friendButton} ${styles.aceito}`} /* Reutiliza estilo verde */
+                                        className={`${styles.friendButton} ${styles.aceito}`}
                                         onClick={handleAcceptFriend}
-                                        style={{ cursor: 'pointer' }} /* Força cursor de clique */
+                                        style={{ cursor: 'pointer' }} 
                                     >
                                         <AcceptIcon /> Aceitar Solicitação
                                     </button>
                                 )}
-
-                                {/* CASO 4: JÁ SÃO AMIGOS */}
                                 {friendStatus === 'aceito' && (
-                                    <button className={`${styles.friendButton} ${styles.aceito}`} disabled>
-                                        <FriendIcon /> Amigos
+                                    <button 
+                                        className={`${styles.friendButton} ${styles.aceito}`} 
+                                        onClick={handleOpenChat} // Chama a função de abrir chat
+                                        title="Conversar"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <ChatIcon /> Conversar
                                     </button>
                                 )}
-
-                                {/* CASO 5: CARREGANDO */}
                                 {friendStatus === 'loading' && (
                                     <button className={styles.friendButton} disabled>
                                         ...

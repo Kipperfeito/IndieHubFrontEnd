@@ -33,7 +33,21 @@
     display: flex;
     align-items: center;
 }
+.friendButton.pendente {
+    background-color: transparent;
+    color: #f1c40f;
+    border-color: #f1c40f;
+    cursor: pointer;
+}
 
+.friendButton.pendente:hover {
+    color: #e74c3c; 
+    border-color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.1); 
+}
+.friendButton.pendente:hover svg {
+    stroke: #e74c3c; 
+}
 /* Botão de Amigo Base */
 .friendButton {
     display: inline-flex;
@@ -46,12 +60,11 @@
     cursor: pointer;
     transition: all 0.2s ease;
     border: 1px solid transparent;
-    background-color: var(--color-surface); /* Cor de fundo padrão */
+    background-color: var(--color-surface); 
     color: var(--color-text-primary);
     border: 1px solid var(--color-border);
 }
 
-/* Estado: Nenhum (Pode adicionar) - Verde */
 .friendButton.none {
     background-color: var(--color-primary);
     color: white;
@@ -61,14 +74,6 @@
     transform: translateY(-2px);
 }
 
-/* Estado: Pendente - Amarelo/Laranja */
-.friendButton.pendente {
-    background-color: transparent;
-    color: #f1c40f;
-    border-color: #f1c40f;
-    cursor: default; /* Não clicável */
-}
-
 /* Estado: Aceito (Amigos) - Azul/Verde Suave */
 .friendButton.aceito {
     background-color: transparent;
@@ -76,6 +81,11 @@
     border-color: #2ecc71;
     cursor: default;
 }
+.friendButton.aceito:hover {
+    background-color: #2a3b2b;
+    transform: translateY(-2px);
+}
+
 .avatarImage {
     width: 120px;
     height: 120px;
