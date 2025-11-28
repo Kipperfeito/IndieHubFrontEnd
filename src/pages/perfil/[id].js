@@ -37,7 +37,7 @@ const ProjectCard = ({ projeto }) => {
     const vagas = (projeto.vagas);
 
     return (
-        <Link href={`/projeto/${projeto.id}`} className={cardStyles.cardLink}>
+        <Link href={`/tela-proj/${projeto.id}`} className={cardStyles.cardLink}>
             <div className={cardStyles.card}>
                 <div>
                     <h3>{projeto.projtitulo}</h3>

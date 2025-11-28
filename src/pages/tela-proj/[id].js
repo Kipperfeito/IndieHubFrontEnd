@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import api from '@/services/api';
 import Link from 'next/link';
 import VagaCard from '@/components/VagaCard'; // Nosso novo componente
-import styles from '@/styles/ProjetoDetalhe.module.css';
+import styles from './ProjetoDetalhe.module.css';
 import { useAuth } from '@/context/AuthContext';
 
 const ChevronLeftIcon = () => (
@@ -60,30 +60,55 @@ export default function ProjetoDetalhe() {
     const [currentMediaIndex, setCurrentMediaIndex] = useState(0); 
     const [isLightboxOpen, setIsLightboxOpen] = useState(false); 
 
-    const { user, loading: authLoading } = useAuth();
-    useEffect(() => {
+    const [candidatos, setCandidatos] = useState([]);
 
+    const { user, loading: authLoading } = useAuth();
+
+    const fetchData = useCallback(() => {
         if (id) {
             setLoading(true);
-
             api.get(`/projetos/${id}`)
                 .then(res => {
                     setProjeto(res.data);
-                    if (res.data.projmedia && res.data.projmedia.length > 0) {
-                        setCurrentMediaIndex(0); 
-                    }
-                    console.log("Projeto carregado:", res.data);
                 })
                 .catch(err => {
                     console.error(err);
                     setError("Não foi possível carregar o projeto.");
                 })
-                .finally(() => {
-                    setLoading(false);
-                });
+                .finally(() => setLoading(false));
         }
-    }, [id]); 
+    }, [id]);
 
+    useEffect(() => {
+        if (router.isReady && id) fetchData();
+    }, [router.isReady, id, fetchData]); 
+
+    useEffect(() => {
+        if (id && user && projeto && user.id === projeto.ownerId) {
+            console.log("Buscando candidatos para o projeto...");
+            
+            api.get(`/projetos/${id}/candidatos`)
+                .then(res => {
+                    console.log("Candidatos encontrados:", res.data);
+                    setCandidatos(res.data);
+                })
+                .catch(err => console.error("Erro ao buscar candidatos:", err));
+        }
+    }, [id, user, projeto]); 
+
+    const handleDecisao = (candidaturaId, status) => {
+        api.put(`/candidaturas/${candidaturaId}/decidir`, { status })
+            .then(() => {
+                alert(`Candidato ${status}!`);
+                // Remove o candidato da lista visualmente
+                setCandidatos(prev => prev.filter(c => c.id !== candidaturaId));
+            })
+            .catch(err => {
+                console.error("Erro detalhado:", err);
+                const msg = err.response?.data?.message || "Erro ao processar decisão.";
+                alert(msg);}
+            );
+    };
 
     if (loading || authLoading) {
         return <p>Carregando...</p>;
@@ -290,14 +315,25 @@ export default function ProjetoDetalhe() {
                         </div>
                     </section>
 
-                    <section className={styles.commentsSection}>
-                        <h2>Comentários e Feedback</h2>
-                        <textarea
-                            placeholder="Deixe seu comentário..."
-                            rows="4"
-                        ></textarea>
-                        <button type="button">Enviar</button>
-                    </section>
+                    {isOwner && candidatos.length > 0 && (
+                        <section className={styles.candidatosSection}>
+                            <h2>Candidaturas Pendentes</h2>
+                            <div className={styles.candidatosList}>
+                                {candidatos.map(c => (
+                                    <div key={c.id} className={styles.candidatoItem}>
+                                        <div className={styles.candidatoInfo}>
+                                            <strong>{c.usuario.usunome}</strong>
+                                            <span> para a vaga de <em>{c.vaga.vagatitulo}</em></span>
+                                        </div>
+                                        <div className={styles.candidatoActions}>
+                                            <button onClick={() => handleDecisao(c.id, 'aprovado')} className={styles.btnApprove}>Aceitar</button>
+                                            <button onClick={() => handleDecisao(c.id, 'rejeitado')} className={styles.btnReject}>Rejeitar</button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
                 </main>
             </div>
             {isLightboxOpen && (
