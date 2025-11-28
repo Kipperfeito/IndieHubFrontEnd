@@ -1,6 +1,6 @@
   import style from './style.module.css'
   import { useState, useRef } from 'react';
-  import { FiBell } from "react-icons/fi";
+  import NotificationBell from '../NotificationBell';
   import Link from 'next/link';
   import { useAuth } from '@/context/AuthContext';
 
@@ -63,11 +63,6 @@
                                 Ver Perfil
                             </Link>
                         </li>
-                        <li>
-                            <Link href={`/meus-amigos/${user.id}`}>
-                                Meus Amigos
-                            </Link>
-                        </li>
                         <li><button
                             onClick={logout}
                             className={style.dropdownButtonAsLink}>
@@ -91,27 +86,10 @@
                   </ul>
                 )}
             </li>
-          <li className={style.menuItem}><a href="/tags">Vagas</a></li>
-            <li 
-                className={`
-                  ${style.notification_icon} 
-                  ${hasNotifications ? style['has-notifications'] : ''}
-                `}
-                id="notification-bell" 
-                onClick={handleIconClick}
-            >
-                <FiBell/>
-
-                <span className={style.notification_badge}></span>
+          <li className={style.menuItem}><Link href={`/meus-amigos/${user.id}`}>Conexões</Link></li>
+            <li className={style.notification_icon}>
+                <NotificationBell />
             </li>
-
-            {/* --- PARA TESTAR --- */}
-            <button 
-                onClick={checkForNotifications} 
-                style={{ marginLeft: '20px' }}
-            >
-                Simular Notificação
-            </button>
         </ul>
       </nav>
     );

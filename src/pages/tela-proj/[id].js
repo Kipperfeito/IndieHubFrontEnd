@@ -282,7 +282,7 @@ export default function ProjetoDetalhe() {
                         <div className={styles.vagasGrid}>
                             {vagasAbertas.length > 0 ? (
                                 vagasAbertas.map(vaga => (
-                                    <VagaCard key={vaga.id} vaga={vaga} />
+                                    <VagaCard key={vaga.id} vaga={vaga} ownerId={projeto.ownerId} />
                                 ))
                             ) : (
                                 <p>Nenhuma vaga aberta no momento.</p>

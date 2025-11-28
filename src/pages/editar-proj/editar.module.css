@@ -338,6 +338,9 @@
     border: 1px dashed var(--color-border);
     border-radius: var(--border-radius-sm);
 }
+.emptyState p {
+    max-width: max-content !important;
+}
 
 /* COLABORADORES (Checkbox Grid) */
 .checkboxList {

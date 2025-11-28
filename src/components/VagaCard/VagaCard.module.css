@@ -1,50 +1,72 @@
 .card {
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e0e0e0);
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    height: 100%; /* Garante altura total no grid */
+    display: flex;
+    flex-direction: column;
+    text-align: center; /* Alinha texto à esquerda */
 }
 
 .titulo {
     margin-top: 0;
     margin-bottom: 0.5rem;
     font-size: 1.25rem;
-    color: #333;
+    color: var(--color-text-primary, #333);
 }
 
 .descricao {
     font-size: 0.95rem;
-    color: #555;
+    color: var(--color-text-secondary, #555);
     margin-bottom: 1rem;
+    flex-grow: 1; /* Empurra o botão para baixo */
 }
 
 .requisitosTitulo {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     margin-bottom: 0.25rem;
     font-size: 0.9rem;
-    color: #111;
+    color: var(--color-text-primary, #111);
     font-weight: 600;
 }
 
 .requisitos {
     font-size: 0.9rem;
-    color: #444;
-    white-space: pre-wrap; /* Preserva quebras de linha dos requisitos */
+    color: var(--color-text-secondary, #444);
+    white-space: pre-wrap;
+    margin-bottom: 1.5rem;
 }
 
 .candidatarBtn {
-    margin-top: 1rem;
+    margin-top: auto; /* Fixa no fundo do card */
     padding: 0.75rem 1.5rem;
-    background-color: #007bff; /* Cor primária */
+    background-color: var(--color-primary, #007bff);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-weight: 600;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    width: 100%;
 }
 
-.candidatarBtn:hover {
-    background-color: #0056b3;
+.candidatarBtn:hover:not(:disabled) {
+    background-color: var(--color-primary-hover, #0056b3);
+    transform: translateY(-2px);
+}
+
+.candidatarBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #6c757d; /* Cinza para desabilitado */
+}
+
+/* Estilo para quando já se candidatou */
+.btnSuccess:disabled {
+    background-color: #28a745; /* Verde */
+    border-color: #28a745;
+    color: white;
+    opacity: 1; /* Mantém opacidade total para ler o texto */
 }
