@@ -1,0 +1,83 @@
+
+/* Estilo da Grade da Galeria (usado em ProjectGallery.js) */
+.galleryContainer {
+  display: grid;
+  /* Cria colunas responsivas: 1 em telas pequenas, 2 em médias, 3 em largas */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem; /* Espaço entre os cards */
+  padding: 1rem 0;
+}
+
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;      
+  display: block;        
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cardLink:hover,
+.cardLink:focus {
+  transform: translateY(-5px); /* Efeito de "levantar" */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  background-color: #333;
+  border: 1px solid #111;
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.card .descricao {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  flex-grow: 1; /* Faz a descrição ocupar o espaço disponível */
+  margin-bottom: 1rem;
+}
+
+.card .metaData {
+  font-size: 0.8rem;
+  border-top: 1px solid #124d87;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card .metaData span strong {
+  font-weight: 500;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: #dfdfdf;
+    border: 1px solid #1976d2;
+  }
+  .card h3{
+    color: #000;
+  }
+  .card .descricao{
+    color: #111;
+  }
+  .card .metaData {
+    color: #111;
+  }
+  .card .metaData span strong {
+    color:#333;
+  }
+
+
+}

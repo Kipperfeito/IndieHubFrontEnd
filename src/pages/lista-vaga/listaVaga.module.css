@@ -1,0 +1,199 @@
+/* --- LAYOUT GERAL (Idêntico ao seu padrão) --- */
+.container {
+    width: 90%;
+    max-width: var(--container-width);
+    margin: 2rem auto;
+    padding: 2rem 0;
+}
+
+.pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2rem;
+}
+
+.pageTitle {
+    font-size: 2.5rem;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    /* Mesma lógica de colunas do seu galleryContainer */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+/* --- CARD DA VAGA --- */
+.card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    
+    /* Layout Flex para empurrar o footer */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    
+    /* Animação de Hover igual ao .cardLink */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s;
+    position: relative; /* Necessário para posicionamentos absolutos se precisar */
+}
+
+/* Efeito Hover (Feedback tátil) */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-color: var(--color-primary-hover);
+}
+
+/* --- CONTEÚDO DO CARD --- */
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinha no topo caso o título quebre linha */
+    margin-bottom: 0.5rem;
+    min-height: 24px; /* Garante altura mesmo sem badge */
+}
+
+.projetoNome {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-text-secondary); /* Cinza discreto */
+    letter-spacing: 0.5px;
+}
+
+/* Badge de Notificação (O destaque visual) */
+.badge {
+    background-color: #e74c3c; /* Vermelho alerta */
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 12px; /* Pílula */
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(231, 76, 60, 0.4);
+    animation: pulse 2s infinite; /* Animação suave */
+}
+
+.vagaTitulo {
+    font-size: 1.25rem; /* Um pouco menor que pageTitle */
+    color: var(--color-text-primary);
+    margin: 0.5rem 0 1rem 0;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Área de Metadados (Status) */
+.metaData {
+    font-size: 0.85rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border); /* Linha divisória igual ao seu ref */
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.statusAberto {
+    color: #27ae60; /* Verde */
+    font-weight: 600;
+}
+
+.statusFechado {
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.cardFooter {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espaço entre a lixeira e o botão grande */
+    padding-top: 1rem;
+}
+
+.btnExcluir {
+    background: transparent;
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0; /* Impede que ele seja esmagado */
+}
+
+.btnExcluir:hover {
+    background-color: #ff6b6b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 107, 107, 0.2);
+}
+/* Estilo Base do Botão (Inspirado no .footerButton) */
+.btnAction {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: transparent;
+    color: var(--color-text-primary);
+    width: 100%; /* No mobile fica full, ou remove para ficar botão pequeno */
+    text-align: center;
+}
+
+/* Variação: Botão Primário (Tem Candidatos) */
+.btnPrimary {
+    background-color: var(--color-primary, #007bff); /* Fallback blue se a var falhar */
+    color: white;
+    border: none;
+}
+
+.btnPrimary:hover {
+    background-color: var(--color-primary-hover, #0056b3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Variação: Botão Secundário (Apenas ver detalhes) */
+.btnSecondary {
+    background-color: var(--color-surface);
+}
+
+.btnSecondary:hover {
+    background-color: var(--color-border);
+    transform: translateY(-1px);
+}
+
+/* Estado Vazio */
+.emptyState {
+    grid-column: 1 / -1; /* Ocupa todas as colunas */
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-secondary);
+}
+
+/* Animação do Badge */
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(231, 76, 60, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}

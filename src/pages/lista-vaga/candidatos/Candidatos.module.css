@@ -1,0 +1,119 @@
+/* Container Principal */
+.pageContainer {
+    width: 90%;
+    max-width: 900px;
+    margin: 3rem auto;
+    min-height: 80vh;
+}
+
+/* Cabeçalho */
+.header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border, #e0e0e0);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btnVoltar {
+    text-decoration: none;
+    color: var(--color-text-secondary, #888);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+    align-self: flex-start; /* Alinha à esquerda */
+}
+
+.btnVoltar:hover {
+    color: var(--color-primary, #007bff);
+}
+
+.titleWrapper {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.title {
+    font-size: 2.2rem;
+    color: var(--color-text-primary, #333);
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: var(--color-primary, #007bff); /* Destaque para o nome do projeto */
+    font-weight: 400;
+    font-size: 1.8rem;
+    opacity: 0.9;
+}
+
+/* Lista e Animações */
+.listaCandidatos {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: slideUp 0.4s ease-out;
+}
+
+.contador {
+    color: var(--color-text-secondary, #666);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* O resto do EmptyState pode manter igual... */
+
+/* Estado Vazio */
+.emptyState {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    border: 2px dashed #dee2e6;
+    margin-top: 2rem;
+}
+
+.emptyState h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.emptyState p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.btnVoltarGrande {
+    padding: 10px 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.btnVoltarGrande:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

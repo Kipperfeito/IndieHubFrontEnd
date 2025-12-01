@@ -1,0 +1,54 @@
+/* HEADER LIGHT (modo claro) */
+.header {
+  background-color: #f5f5f5;
+  padding: 10px 20px;
+}
+
+.header .menuItem a {
+  color: #1e1e1e;
+}
+
+.header .menuItem a:hover {
+  color: #1976d2;
+}
+
+.header .menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+  border-bottom: 2px solid #1e1e1e;
+}
+
+.logo {
+  height: 70px;
+  width: auto;
+}
+
+/* HEADER DARK (modo escuro) */
+@media (prefers-color-scheme: dark) {
+  .header {
+    background-color: #1e1e1e;
+    padding: 10px 20px;
+  }
+
+  .header .menuItem a {
+    color: #fff;
+  }
+
+  .header .menuItem a:hover {
+    color: #ff6b6b;
+  }
+
+  .header .menu {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+    border-bottom: 2px solid #1976d2;
+  }
+}

@@ -1,0 +1,283 @@
+.card {
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e0e0e0);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    height: 100%; /* Garante altura total no grid */
+    display: flex;
+    flex-direction: column;
+    text-align: center; 
+    position: relative; /* Para animações posicionais se necessário */
+    transition: box-shadow 0.2s;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.titulo {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    color: var(--color-text-primary, #333);
+}
+
+.descricao {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary, #555);
+    margin-bottom: 1rem;
+    flex-grow: 1; /* Empurra o conteúdo inferior para baixo */
+}
+
+.requisitosTitulo {
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--color-text-primary, #111);
+    font-weight: 600;
+}
+
+.requisitos {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary, #444);
+    white-space: pre-wrap;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Botão Principal (Estado Inicial) --- */
+.candidatarBtn {
+    margin-top: auto; /* Fixa no fundo do card */
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-primary, #007bff);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.candidatarBtn:hover:not(:disabled) {
+    background-color: var(--color-primary-hover, #0056b3);
+    transform: translateY(-2px);
+}
+
+.candidatarBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #6c757d;
+}
+
+/* Estilo para quando já se candidatou (Sucesso) */
+.btnSuccess:disabled {
+    background-color: #28a745; /* Verde */
+    border-color: #28a745;
+    color: white;
+    opacity: 1;
+    cursor: default;
+}
+
+/* --- Novos Estilos: Área de Mensagem --- */
+
+.inputContainer {
+    margin-top: auto; /* Também fica no fundo do card */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    text-align: left; /* Para o texto digitado ficar à esquerda */
+    animation: fadeIn 0.3s ease-out;
+}
+
+.mensagemInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--color-border, #ccc);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical; /* Permite redimensionar altura */
+    min-height: 80px;
+    box-sizing: border-box; /* Garante que o padding não estoure a largura */
+}
+
+.mensagemInput:focus {
+    outline: none;
+    border-color: var(--color-primary, #007bff);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.botoesContainer {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: stretch; /* Botões ocupam largura total */
+}
+
+/* Botões de Ação (Confirmar / Cancelar) */
+.enviarBtn, .cancelarBtn {
+    padding: 0.6rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex: 1; /* Faz os botões terem o mesmo tamanho */
+    transition: background-color 0.2s;
+}
+
+.enviarBtn {
+    background-color: #28a745; /* Verde Sucesso */
+    color: white;
+}
+
+.enviarBtn:hover:not(:disabled) {
+    background-color: #218838;
+}
+
+.cancelarBtn {
+    background-color: #6c757d; /* Cinza */
+    color: white;
+}
+
+.cancelarBtn:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+.enviarBtn:disabled, .cancelarBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Preto transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique em cima de tudo */
+    backdrop-filter: blur(2px); /* Efeito de desfoque no fundo (moderno) */
+}
+
+/* A caixa branca do modal */
+.modalContent {
+    background: white;
+    width: 90%;
+    max-width: 500px; /* Largura máxima boa para leitura */
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease-out;
+    text-align: left; /* Conteúdo alinhado à esquerda fica mais sério */
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modalHeader h3 {
+    margin: 0;
+    color: #333;
+}
+
+.closeX {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+}
+
+/* Preview do Usuário */
+.profilePreview {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
+
+.avatar {
+    width: 50px; 
+    height: 50px;
+    border-radius: 50%; 
+    object-fit: cover;  
+    background-color: #ddd; 
+    flex-shrink: 0;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;   
+    overflow: hidden;
+}
+
+.labelPreview {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Área de Texto */
+.labelArea {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.nome strong {
+    color: #666;
+}
+
+.textArea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.textArea:focus {
+    outline: none;
+    border-color: var(--color-primary, #007bff);
+}
+
+.hint {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.modalActions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

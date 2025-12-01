@@ -1,0 +1,278 @@
+/* Container Geral */
+.container {
+    min-height: 100vh;
+    background-color: #0f1014; /* Fundo bem escuro (quase preto) */
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif; /* Se tiver importado, senão usa padrão */
+    overflow-x: hidden;
+}
+
+/* --- HERO SECTION (A parte do topo) --- */
+.heroSection {
+    background: linear-gradient(90deg, #1a1c23 0%, #111 100%);
+    padding: 3rem 1rem 4rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid #2a2a2a;
+    position: relative;
+    /* Um brilho sutil no fundo */
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.heroTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.heroSubtitle {
+    color: #888;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    text-align: center;
+    max-width: 600px;
+}
+
+/* Container da SearchBar para centralizar e dar limite */
+.searchWrapper {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    z-index: 10; /* Fica acima de tudo */
+}
+
+/* --- LAYOUT PRINCIPAL (O Grid) --- */
+.mainContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    
+    display: grid;
+    /* Coluna Principal (2.5 partes) | Barra Lateral (1 parte) */
+    grid-template-columns: 2.5fr 1fr; 
+    gap: 2rem;
+    align-items: start; /* Alinha tudo ao topo */
+}
+
+/* Coluna da Esquerda (Projetos) */
+.feedSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-left: 4px solid #007bff; /* Detalhe azul */
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+/* Wrapper para os Cards de Projeto ficarem bonitos no grid */
+/* Isso força o seu CardProjeto a se comportar bem */
+.projectsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --- BARRA LATERAL (Sidebar) --- */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: sticky; /* Faz a sidebar acompanhar o scroll! */
+    top: 2rem;
+}
+
+.widget {
+    background-color: #1a1c23;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.widgetTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Widget de Tags (Skills) */
+.tagsCloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    background-color: #2a2a2a;
+    color: #aaa;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.tag:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}
+
+/* Widget de Comunidade/Links */
+.linkList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.linkItem {
+    padding: 10px 0;
+    border-bottom: 1px solid #2a2a2a;
+    color: #ccc;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    justify-content: space-between;
+}
+
+.linkItem:last-child { border-bottom: none; }
+.linkItem:hover { color: #007bff; }
+
+.headerContainer {
+    width: 100%;
+    background: linear-gradient(90deg, #1a1c23 0%, #111 100%); 
+    padding: 1rem 2rem;
+    position: relative; 
+    z-index: 50; /* Garante que fique acima de tudo */
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoArea {
+    display: none; /* Isso remove a logo do layout */
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menuItem {
+    position: relative; /* Necessário para o dropdown absoluto */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.navLink {
+    background: none;
+    border: none;
+    color: #cbcbcb; 
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+}
+
+/* Mantém o efeito de ficar branco quando passa o mouse para dar destaque */
+.navLink:hover {
+    color: #fff; 
+    text-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+/* Ajusta a setinha para ficar da mesma cor */
+.arrow {
+    font-size: 0.7rem;
+    opacity: 0.7; /* Já herda a cor do pai (#888) */
+}
+
+/* --- DROPDOWN (O menu que abre) --- */
+.dropdownMenu {
+    position: absolute;
+    top: 100%; /* Logo abaixo do botão */
+    right: 0; /* Alinha à direita ou left: 0 para esquerda */
+    background-color: #1a1c23; /* Fundo sólido escuro para o dropdown */
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    list-style: none;
+    padding: 0.5rem 0;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.dropdownItem {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.2s, color 0.2s;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdownItem:hover {
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+.iconItem {
+    display: flex;
+    align-items: center;
+    color: #888; /* Mudado para cinza também */
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.iconItem:hover {
+    color: #fff;
+}
+
+/* Responsividade: No celular vira uma coluna só */
+@media (max-width: 900px) {
+    .mainContent {
+        grid-template-columns: 1fr; /* 1 coluna */
+    }
+    
+    .sidebar {
+        position: static; /* Remove o sticky no mobile */
+        order: -1; /* Joga a sidebar para cima (opcional) ou deixe embaixo */
+    }
+
+    .heroTitle { font-size: 2rem; }
+}

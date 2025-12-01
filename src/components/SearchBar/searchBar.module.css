@@ -1,0 +1,40 @@
+.searchBarWrapper {
+    width: 100%;
+    max-width: 600px; /* Largura máxima confortável */
+    background-color: white;
+    border-radius: 10px; /* Bordas bem arredondadas */
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05); /* Sombra leve */
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    height: 50px;
+}
+
+
+.searchBarWrapper:focus-within {
+    border-color: var(--color-primary); /* Cor primária do seu site */
+    box-shadow: 0px 4px 15px rgba(0, 123, 255, 0.15);
+}
+
+#searchIcon {
+    color: #007bff;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.searchInput {
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 1rem;
+    color: #333;
+    outline: none; /* Remove a borda padrão do browser */
+}
+
+.searchInput::placeholder {
+    color: #aaa;
+    font-weight: 400;
+}

@@ -1,0 +1,244 @@
+/* Container Principal (Tela Cheia menos o Header) */
+.chatContainer {
+    display: flex;
+    height: calc(100vh - 70px); /* Ajuste 70px conforme a altura do seu Header */
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    overflow: hidden; /* Impede scroll na página inteira */
+}
+
+/* --- BARRA LATERAL --- */
+.sidebar {
+    width: 300px;
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.sidebarHeader {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.sidebarHeader h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--color-text-primary);
+}
+
+.amigosList {
+    flex-grow: 1;
+    overflow-y: auto; /* Scroll só na lista */
+}
+
+.amigoItem {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.amigoItem:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.amigoItem.active {
+    background-color: rgba(83, 170, 224, 0.15); /* Cor primária sutil */
+    border-left: 3px solid var(--color-primary);
+}
+
+.avatarPequeno {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    background-color: #333;
+}
+.avatarFallback {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: #333; /* Cinza do WhatsApp */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    border: 3px solid var(--color-border);
+}
+.amigoInfo strong {
+    display: block;
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+}
+.amigoInfo .status {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+.empty {
+    padding: 1.5rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+
+/* --- ÁREA DE CHAT --- */
+.chatArea {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-background); /* Um pouco mais escuro que a sidebar */
+}
+
+/* Header do Chat */
+.chatHeader {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.avatarChat {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.chatHeader h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    flex-grow: 1;
+}
+.linkPerfil {
+    font-size: 0.85rem;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+/* Lista de Mensagens */
+.messagesList {
+    flex-grow: 1;
+    padding: 1.5rem;
+    overflow-y: auto; /* Scroll nas mensagens */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.messagesList p {
+    color: var(--color-text-primary)
+}
+.messageBubble {
+    max-width: 70%;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.messageBubble p {
+    margin: 0;
+}
+
+.messageBubble .time {
+    display: block;
+    font-size: 0.7rem;
+    margin-top: 0.3rem;
+    opacity: 0.7;
+    text-align: right;
+}
+
+/* Minhas Mensagens (Direita) */
+.me {
+    align-self: flex-end;
+    background-color: var(--color-primary);
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+.me .time { color: rgba(255,255,255,0.8); }
+
+/* Mensagens Deles (Esquerda) */
+.them {
+    align-self: flex-start;
+    background-color: #2c3e50; /* Cinza/Azul escuro */
+    color: var(--color-text-primary);
+    border-bottom-left-radius: 2px;
+}
+
+/* Input Area */
+.inputArea {
+    padding: 1rem;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    gap: 1rem;
+}
+
+.inputArea input {
+    flex-grow: 1;
+    padding: 0.8rem 1rem;
+    border-radius: 25px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: inherit;
+}
+.inputArea input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.sendButton {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.sendButton:hover {
+    transform: scale(1.1);
+}
+
+/* Estado Vazio */
+.noChatSelected {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+/* Responsivo Mobile */
+@media (max-width: 768px) {
+    .chatContainer {
+        flex-direction: column;
+        height: calc(100vh - 60px);
+    }
+    .sidebar {
+        width: 100%;
+        height: 30%; /* Em mobile, lista em cima */
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+    .chatArea {
+        height: 70%;
+    }
+}

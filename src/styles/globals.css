@@ -1,0 +1,326 @@
+:root {
+  /* Paleta de Cores (Modo Claro) */
+  --color-primary: #53aae0;
+  --color-primary-hover: #417c9e;
+  --color-background: #0d1117; /* Fundo escuro por padrão, como na proposta */
+  --color-surface: #161b22;   /* Cor para cards e seções */
+  --color-text-primary: #e6edf3;
+  --color-text-secondary: #a1aab5;
+  --color-border: #30363d;
+
+  /* Tipografia */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+  /* Padrões de Layout */
+  --border-radius-sm: 8px;
+  --border-radius-md: 10px;
+  --container-width: 1100px;
+}
+
+/* Reset Básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. ESTILOS GERAIS (BODY, TIPOGRAFIA) */
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+main.landing-page {
+    background-image: linear-gradient(to bottom, #161b22, #0d1117);
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+h1 { font-size: 3.5rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.5rem; }
+p {
+  margin-bottom: 1rem;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* 3. LAYOUT */
+.container {
+  width: 90%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+section {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+/* 4. COMPONENTES */
+
+/* --- Header / Navegação --- */
+.main-header {
+  background-color: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  width: 90%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+/* --- Botões --- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(83, 170, 224, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(83, 170, 224, 0.25);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(83, 170, 224, 0.1);
+  color: var(--color-primary);
+}
+
+
+.showcase-grid, .features-grid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.features-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-bottom: 4rem;
+}
+
+.feature-card, .project-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  text-align: left;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2.5rem;
+}
+
+.feature-card svg {
+    margin-bottom: 1rem;
+    height: 3rem;
+    width: 3rem;
+    color: var(--color-primary);
+}
+
+.feature-card:hover, .project-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary);
+}
+.showcase-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* O Card do Projeto em si */
+.project-card {
+  background-color: var(--color-surface); /* Um cinza um pouco mais claro que o fundo preto */
+  border: 1px solid #2a2a35; /* Borda sutil para definição */
+  border-radius: 12px; /* Bordas arredondadas modernas */
+  overflow: hidden;
+  transition: all 0.3s ease; /* Transição suave para o hover */
+  display: flex;
+  flex-direction: column; /* Permite que o conteúdo interno se expanda */
+  height: 100%; /* Garante que todos os cards na mesma linha tenham a mesma altura */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve inicial */
+}
+
+/* Efeito ao passar o mouse */
+.project-card:hover {
+  transform: translateY(-5px); /* Levanta ligeiramente */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+}
+
+/* Conteúdo interno do card */
+.project-card-content {
+  padding: 1.5rem; /* Espaçamento interno confortável */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Ocupa todo o espaço disponível verticalmente */
+  justify-content: space-between; /* Separa o bloco de cima (título/desc) do bloco de baixo (tags/link) */
+}
+
+/* Título do Projeto */
+.project-card h3 {
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0; /* Margem apenas embaixo */
+  color: #ffffff; /* Branco para máximo destaque */
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* Descrição do Projeto */
+.project-card p {
+  color: #b0b0c0; /* Cinza claro para boa leitura no fundo escuro */
+  font-size: 0.95rem;
+  line-height: 1.6; /* Melhor espaçamento entre linhas */
+  margin-bottom: 1.5rem; /* Espaço antes do rodapé do card */
+  flex-grow: 1; /* Garante que a descrição empurre o rodapé para baixo */
+}
+
+/* Container para o rodapé do card (Badge e Link) */
+.project-card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Espaço entre o badge e o link */
+    align-items: flex-start; /* Alinha à esquerda */
+}
+
+/* Estilo base para as Tags/Badges */
+.project-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  border-radius: 50px; /* Formato de pílula */
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Variação: Quando TEM vagas (Destaque Azul) */
+.project-tag.vagas-on {
+  background-color: rgba(0, 123, 255, 0.1); /* Fundo azul translúcido */
+  color: #4fa5ff; /* Texto azul claro vibrante */
+  border: 1px solid rgba(0, 123, 255, 0.3); /* Borda azul sutil */
+}
+
+/* Variação: Quando NÃO TEM vagas (Discreto) */
+.project-tag.vagas-off {
+  background-color: #2a2a35; /* Fundo cinza discreto */
+  color: #888; /* Texto cinza apagado */
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* Link "Ver detalhes" */
+.project-link {
+  color: #007bff; /* Cor primária */
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre texto e seta */
+  transition: all 0.2s;
+}
+
+.project-link:hover {
+  color: #4fa5ff; /* Clareia no hover */
+  gap: 12px; /* Afasta a seta um pouco para efeito de movimento */
+}
+/* 5. SEÇÕES ESPECÍFICAS DA LANDING PAGE */
+.hero-section {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-section .btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    max-width: 70ch;
+}
+
+/* --- Rodapé --- */
+.main-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+
+/* 6. RESPONSIVIDADE */
+@media (max-width: 768px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  .hero-section p { font-size: 1.1rem; }
+  
+  .nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .nav-links .btn {
+      width: 100%;
+  }
+}

@@ -1,0 +1,104 @@
+/* components/MediaModal.module.css */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9); /* Fundo escuro semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique por cima de tudo */
+}
+
+.modalContent {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.closeButton {
+    position: absolute;
+    top: -30px; /* Acima do conteúdo */
+    right: -30px; /* À direita do conteúdo */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 1010; /* Acima dos botões de navegação */
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.closeButton:hover {
+    opacity: 1;
+}
+
+.mediaContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mediaItem {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Garante que a mídia seja visível inteira */
+    border-radius: 8px;
+}
+
+.navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1005;
+    opacity: 0.7;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+.navButton:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev {
+    left: -60px; /* À esquerda do conteúdo */
+}
+
+.next {
+    right: -60px; /* À direita do conteúdo */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .closeButton {
+        top: 10px;
+        right: 10px;
+        font-size: 2rem;
+    }
+    .navButton {
+        padding: 0.5rem 0.8rem;
+        font-size: 1.5rem;
+    }
+    .prev {
+        left: 10px;
+    }
+    .next {
+        right: 10px;
+    }
+}

@@ -1,0 +1,152 @@
+.container {
+    max-width: var(--container-width, 900px);
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.title {
+    color: var(--color-text-primary);
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+}
+
+.section {
+    margin-bottom: 3rem;
+}
+
+.section h2 {
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.badge {
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    height: 28px;      /* Altura fixa */
+    min-width: 24px;   /* Largura mínima (para números de 1 dígito serem redondos) */
+    padding: 0 6px;    /* Espaço lateral para números maiores (10, 100) */
+    border-radius: 12px; /* Metade da altura para ficar redondo */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; 
+    margin: 0;
+    line-height: 0; 
+    transform: translateY(-4.7px);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.empty {
+    color: var(--color-text-secondary);
+    font-style: italic;
+}
+
+/* CARD DE AMIGO */
+.friendCard {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s;
+}
+.friendCard:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.friendLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+    flex-grow: 1;
+}
+
+.avatar {
+    max-width: 7rem;
+}
+.avatarImage {
+    width: 100%;
+    height: 100%;
+    max-width: 7rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-border);
+}
+
+.avatarFallback {
+    width: 100%;
+    height: 100%;
+    max-width: 7rem;
+    border-radius: 50%;
+    background-color: #333; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888; 
+    border: 2px solid var(--color-border);
+}
+
+
+.status {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+/* CARD PENDENTE */
+.cardPendente {
+    background-color: rgba(241, 196, 15, 0.1); /* Amarelo sutil */
+    border: 1px solid #f1c40f;
+    border-radius: var(--border-radius-sm);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.userInfo {
+    color: var(--color-text-primary);
+    font-weight: 500;
+}
+
+/* BOTÕES */
+.btnRemove, .btnAccept, .btnReject {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.btnRemove { color: var(--color-text-secondary); }
+.btnRemove:hover { background-color: rgba(255,255,255,0.1); color: #e74c3c; }
+
+.btnAccept { color: #2ecc71; background-color: rgba(46, 204, 113, 0.1); margin-right: 0.5rem; }
+.btnAccept:hover { background-color: rgba(46, 204, 113, 0.3); }
+
+.btnReject { color: #e74c3c; background-color: rgba(231, 76, 60, 0.1); }
+.btnReject:hover { background-color: rgba(231, 76, 60, 0.3); }
+
+.actions {
+    display: flex;
+}

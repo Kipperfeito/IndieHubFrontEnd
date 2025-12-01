@@ -1,0 +1,122 @@
+.cardCandidato {
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e0e0e0);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    transition: all 0.2s ease;
+    position: relative; /* Para posicionar a data absoluta se quiser */
+}
+
+.cardCandidato:hover {
+    box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+/* Cabeçalho do Card */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.infoUsuario {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Ajustes no nome e badge */
+.textos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nome {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #333);
+}
+
+.vagaBadge {
+    display: inline-block;
+    font-size: 0.75rem;
+    background: #eef2ff;
+    color: #4f46e5;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    align-self: flex-start;
+}
+
+/* Data */
+.data {
+    font-size: 0.8rem;
+    color: #999;
+    white-space: nowrap;
+}
+
+/* --- A CORREÇÃO DO TEXTO --- */
+.boxMensagem {
+    background-color: #f8f9fa;
+    border-left: 4px solid var(--color-primary, #007bff);
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 24px;
+}
+
+.labelMensagem {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #6c757d;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.textoMensagem {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary, #444);
+    margin: 0;
+    line-height: 1.6;
+    white-space: pre-wrap;    
+    word-break: break-word;    
+    overflow-wrap: anywhere;   
+}
+
+/* Ações */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border, #f0f0f0);
+}
+
+.btnAprovar, .btnRejeitar {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: filter 0.2s;
+}
+
+.btnAprovar {
+    background-color: #28a745;
+    color: white;
+}
+
+.btnAprovar:hover { filter: brightness(0.9); }
+
+.btnRejeitar {
+    background-color: white;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.btnRejeitar:hover { background-color: #fff5f5; }

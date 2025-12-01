@@ -1,0 +1,499 @@
+.container {
+    /* Usa a variável de largura do seu globals.css */
+    max-width: var(--container-width); 
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.mainContent {
+    background: var(--color-surface); /* Usa a cor de "superfície" */
+    padding: 2rem;
+    border: 1px solid var(--color-border); /* Usa a cor da borda */
+    border-radius: var(--border-radius-md); /* Usa o raio da borda */
+}
+
+.titleHeader {
+    display: flex;
+    justify-content: space-between; /* Empurra o título e o botão para lados opostos */
+    align-items: center; 
+    gap: 1.5rem; 
+    flex-wrap: wrap; 
+    margin-bottom: 0.5rem; 
+}
+
+.titulo {
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: var(--color-text-primary);
+}
+
+.editButton {
+    display: inline-block;
+    padding: 0.6rem 1.2rem; 
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    white-space: nowrap; 
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.editButton:hover {
+    border-color: var(--color-primary);
+    background-color: rgba(83, 170, 224, 0.1);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.descricao {
+    padding-top: 4rem;
+}
+.links,
+.vagasSection,
+.commentsSection,
+.colaboradoresSection {
+    /* Sobrescreve o 'padding: 4rem 0;' do globals.css */
+    padding-top: 1rem; 
+}
+
+.descricao h2,
+.links h2,
+.vagasSection h2,
+.commentsSection h2 {
+    font-size: 1.75rem;
+    border-bottom: 1px solid var(--color-border); 
+    padding-bottom: 0.5rem;
+    margin-top: 2rem;
+    text-align: start;
+    color: var(--color-text-primary);  
+}
+
+.descricao p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    text-align: justify;
+    max-width: max-content;
+    color: var(--color-text-primary); /* Texto principal (mais claro) */
+}
+
+
+.links a {
+    text-align: center;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: var(--border-radius-sm);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    /* Pega os estilos do seu .btn-secondary */
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.links a:hover {
+    /* Pega os estilos de hover do seu .btn-secondary */
+    border-color: var(--color-primary);
+    background-color: rgba(83, 170, 224, 0.1);
+    color: var(--color-primary);
+}
+
+/* 5. Vagas */
+.vagasGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+/* Texto "Nenhuma vaga" */
+.vagasSection p {
+    color: var(--color-text-secondary);
+}
+.stronges {
+    color: var(--color-text-primary);
+    font-size: 1.1rem;
+}
+.mediaSection {
+    margin-bottom: 2rem;
+    background: var(--color-surface); 
+    border: 1px solid var(--color-border); 
+    border-radius: var(--border-radius-md); 
+    padding: 1rem;
+    display: flex;
+    flex-direction: column; /* Coluna em telas menores, linha em maiores */
+    align-items: center;
+}
+
+.mainMediaViewer {
+    position: relative;
+    width: 100%;
+    /* Aspect ratio 16:9 */
+    padding-bottom: 56.25%; 
+    background-color: #000; /* Fundo preto para o viewer */
+    border-radius: var(--border-radius-sm);
+    overflow: hidden; /* Garante que a imagem/video não vaze */
+    margin-bottom: 1rem; /* Espaço entre o player principal e as miniaturas */
+    cursor: zoom-in; /* Indica que é clicável */
+}
+
+.mainMediaViewer img,
+.mainMediaViewer iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta as bordas para preencher */
+    border-radius: var(--border-radius-sm);
+}
+
+.navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.5rem;
+    border-radius: 50%; /* Botão redondo */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.navButton:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prevButton {
+    left: 10px;
+}
+
+.nextButton {
+    right: 10px;
+}
+
+.thumbnailGallery {
+  scrollbar-color: var(--color-text-secondary) var(--color-background);
+  scrollbar-width: thin; 
+}
+
+.thumbnailGallery::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* A "trilha" (o fundo da barra) */
+.thumbnailGallery::-webkit-scrollbar-track {
+  background: var(--color-background); /* Fundo da página, para misturar */
+  border-radius: var(--border-radius-sm);
+}
+
+/* O "polegar" (a parte que você arrasta) */
+.thumbnailGallery::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-secondary); /* Cor sutil (cinza-claro) */
+  border-radius: var(--border-radius-sm);
+  border: 2px solid var(--color-background); 
+}
+
+/* O "polegar" ao passar o mouse */
+.thumbnailGallery::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary); /* Cor de destaque ao passar o mouse */
+}
+.thumbnailGallery {
+    display: flex;
+    flex-wrap: wrap; /* Quebra para próxima linha em telas menores */
+    justify-content: center; /* Centraliza as miniaturas */
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.thumbnailWrapper {
+    width: 120px; /* Largura fixa para miniaturas */
+    height: 70px; /* Altura fixa para miniaturas (aprox. 16:9) */
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent; /* Borda padrão transparente */
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.thumbnailWrapper:hover {
+    transform: translateY(-2px);
+}
+
+.thumbnailWrapper.activeThumbnail {
+    border-color: var(--color-primary); /* Borda azul para a miniatura ativa */
+}
+
+.thumbnailImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.videoThumbnailWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.videoThumbnailWrapper .playIcon {
+    position: absolute;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    pointer-events: none; /* Não interfere no clique do pai */
+}
+.candidatosSection {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(83, 170, 224, 0.1); /* Azul muito sutil de destaque */
+    border: 1px solid var(--color-primary);
+    border-radius: var(--border-radius-md);
+}
+
+.candidatosSection h2 {
+    margin-top: 0;
+    border-bottom-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.candidatosList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.candidatoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-background);
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border);
+}
+
+.candidatoInfo {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.candidatoInfo strong {
+    color: var(--color-text-primary);
+    font-size: 1.1rem;
+}
+.candidatoInfo span {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+.candidatoInfo em {
+    color: var(--color-primary);
+    font-style: normal;
+    font-weight: 600;
+}
+
+.candidatoActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btnApprove, .btnReject {
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-sm);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.btnApprove {
+    background-color: #27ae60; /* Verde */
+    color: white;
+}
+.btnReject {
+    background-color: #c0392b; /* Vermelho */
+    color: white;
+}
+.btnApprove:hover, .btnReject:hover {
+    opacity: 0.9;
+}
+
+/* --- LIGHTBOX (POP-UP EM TELA CHEIA) --- */
+.lightboxOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9); /* Fundo escuro semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Acima de todo o resto */
+}
+
+.lightboxContent {
+    position: relative;
+    max-width: 90vw; /* Limita a largura do conteúdo */
+    max-height: 90vh; /* Limita a altura do conteúdo */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightboxMedia {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightboxMedia img,
+.lightboxMedia iframe {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Garante que a mídia seja totalmente visível */
+    border-radius: var(--border-radius-sm);
+}
+
+.lightboxCloseButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1001; /* Acima do conteúdo do lightbox */
+}
+.lightboxCloseButton svg {
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); /* Sombra para o ícone */
+}
+
+.lightboxNavButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 2rem;
+    border-radius: 50%;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.lightboxNavButton:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightboxPrev {
+    left: 20px;
+}
+
+.lightboxNext {
+    right: 20px;
+}
+.owner {
+    font-size: 1rem;
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
+    color: var(--color-text-secondary); 
+    display: block;
+}
+
+.metaInfo {
+    margin-bottom: 2rem; 
+}
+
+.collaboratorList {
+    font-size: 1rem; 
+    color: var(--color-text-secondary);
+    padding-left: 2px; 
+}
+
+.collaboratorList span {
+    color: var(--color-text-secondary);
+    margin-right: 0.5rem;
+}
+
+.collaboratorLink {
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-right: 2px; 
+}
+
+.collaboratorLink:hover {
+    text-decoration: underline;
+}
+@media (min-width: 768px) {
+    .candidatoItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .candidatoActions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .btnApprove, .btnReject {
+        flex: 1;
+    }
+    .mediaSection {
+        flex-direction: row; /* Miniaturas ao lado em telas maiores */
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .mainMediaViewer {
+        width: calc(70% - 0.75rem); /* Ocupa 70% da largura na versão desktop */
+        padding-bottom: 39.375%; /* (70 * 9 / 16) */
+        margin-bottom: 0;
+    }
+    .thumbnailGallery {
+        width: calc(30% - 0.75rem); 
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        max-height: calc((200px * 2) + 0.5rem); 
+        overflow-y: scroll; /* Habilita a rolagem vertical */
+        padding-right: 6px;
+    }
+    .thumbnailWrapper {
+        width: 100%; /* Miniaturas preenchem a largura disponível */
+        height: auto;
+        padding-bottom: 56.25%; /* Mantém aspect ratio 16:9 */
+    }
+}

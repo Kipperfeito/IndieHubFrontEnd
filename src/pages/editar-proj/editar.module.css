@@ -1,0 +1,388 @@
+/* LAYOUT PRINCIPAL */
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+}
+
+.mainContent {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* MENSAGENS DE ERRO */
+.errorMessage {
+    color: #ff6b6b;
+    background-color: rgba(255, 77, 77, 0.1);
+    border: 1px solid #ff4d4d;
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    text-align: center;
+    font-weight: 500;
+}
+
+/* BARRA DE AÇÕES (Topo) */
+.ownerActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* BOTÕES GERAIS */
+.btnPrimary, .btnSecondary, .btnRemove {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btnPrimary {
+    background-color: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.btnPrimary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+}
+.btnPrimary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btnSecondary {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+}
+.btnSecondary:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-text-secondary);
+}
+
+.btnRemove {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #ff6b6b;
+    border-color: rgba(231, 76, 60, 0.3);
+}
+.btnRemove:hover {
+    background-color: rgba(231, 76, 60, 0.2);
+    border-color: #ff6b6b;
+}
+
+/* --- ESTILO BASE PARA INPUTS (Usado com 'composes') --- */
+.inputBase {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+.inputBase:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(83, 170, 224, 0.15);
+}
+
+/* Classes que "herdam" a base */
+.titleInput {
+    composes: inputBase;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.descriptionTextarea {
+    composes: inputBase;
+    min-height: 150px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.input {
+    composes: inputBase;
+}
+.select {
+    composes: inputBase;
+}
+
+/* --- LABELS (CORRIGIDO) --- */
+.mainContent > label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+.mainContent > label:first-of-type { 
+    margin-top: 0; 
+} 
+
+/* --- GRID DE LINKS (CORRIGIDO) --- */
+.linksEditGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+/* Inputs dentro do grid de links */
+.linksEditGrid input {
+    /* ERRO 'composes' REMOVIDO */
+    /* Estilos copiados de .inputBase */
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+.linksEditGrid input:focus {
+    /* Estilos copiados de .inputBase:focus */
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(83, 170, 224, 0.15);
+}
+.linksEditGrid div {
+    display: flex;
+    flex-direction: column;
+}
+.linksEditGrid label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    text-align: left;
+}
+
+/* DIVISORIAS */
+.divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 2.5rem 0;
+    opacity: 0.5;
+}
+
+
+.mediaSection {
+    padding: 0;
+}
+
+.links h2,
+.colaboradoresSection h2,
+.vagasSection h2 {
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 0.5rem;
+    display: inline-block; 
+    text-align: left; 
+}
+
+/* CAIXA DE ADICIONAR (Mídia/Vaga) */
+.addMediaBox, .addVagaBox {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.addMediaBox h4, .addVagaBox h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+}
+
+.addVagaBox label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    text-align: left;
+}
+.addVagaBox label:first-of-type { 
+    margin-top: 0; 
+} 
+
+.inputWithButton {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap; 
+}
+.inputWithButton select {
+    flex: 1;
+    min-width: 120px;
+    /* ERRO 'composes' REMOVIDO */
+    /* Estilos copiados de .inputBase */
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+.inputWithButton select:focus {
+    /* Estilos copiados de .inputBase:focus */
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(83, 170, 224, 0.15);
+}
+.inputWithButton input {
+    flex: 3;
+    min-width: 200px;
+    /* ERRO 'composes' REMOVIDO */
+    /* Estilos copiados de .inputBase */
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+.inputWithButton input:focus {
+    /* Estilos copiados de .inputBase:focus */
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(83, 170, 224, 0.15);
+}
+.inputWithButton button {
+    flex: 0;
+    white-space: nowrap;
+}
+
+/* LISTAS DE ITENS (Mídia/Vagas) */
+.mediaPreviewList, .vagasGridEdit {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mediaPreviewItem, .vagaItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+}
+
+.mediaType {
+    font-weight: bold;
+    color: var(--color-primary);
+    margin-right: 1rem;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.mediaUrl {
+    flex-grow: 1;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 1rem;
+    font-family: monospace;
+}
+
+.emptyState {
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    padding: 2rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-sm);
+}
+.emptyState p {
+    max-width: max-content !important;
+}
+
+/* COLABORADORES (Checkbox Grid) */
+.checkboxList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    background-color: var(--color-background);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border);
+}
+
+.checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.checkboxItem:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.checkboxItem input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .container { padding: 1rem; }
+    .mainContent { padding: 1.5rem; }
+    .ownerActions {
+        flex-direction: column-reverse; 
+        align-items: stretch;
+        gap: 1rem;
+    }
+    .inputWithButton { flex-direction: column; }
+    .inputWithButton select, .inputWithButton input, .inputWithButton button {
+        width: 100%;
+    }
+}
